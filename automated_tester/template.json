@@ -1,0 +1,30 @@
+[
+    {
+        "expName": "",
+        "outputDirectory": "",
+        "sourceDirectory": "",
+        "executable": "",
+        "repetitions": 1,
+        "lang": "C",
+        "measurements": [
+            {
+                "tool": "time",
+                "metrics": [
+                    "real",
+                    "user",
+                    "sys"
+                ]
+            }
+        ],
+        "configurations": [
+            {
+                "name": "",
+                "values": [
+                    1,
+                    2,
+                    3
+                ]
+            }
+        ]
+    }
+]
