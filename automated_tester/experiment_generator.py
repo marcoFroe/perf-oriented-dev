@@ -1,3 +1,5 @@
+# Implementation was mostly done by hand. Path related stuff was later reworked with the help of CoPilot.
+
 import itertools
 import json
 import argparse
@@ -199,17 +201,16 @@ def main():
             if not os.path.isabs(base_slurm):
                 base_slurm = os.path.join(BASE_DIR, base_slurm)
             if not os.path.exists(base_slurm):
-                raise FileNotFoundError(
-                    f"base slurm template not found: {base_slurm}"
-                )
+                raise FileNotFoundError(f"base slurm template not found: {base_slurm}")
 
             shutil.copy2(base_slurm, exp_slurm)
 
             # append generated commands to the slurm script
             with open(exp_slurm, "a") as f:
                 f.write("\n# Generated commands\n")
-                for command in commands:
-                    f.write(f"{command}\n")
+                for _ in range(exp["repetitions"]):
+                    for command in commands:
+                        f.write(f"{command}\n")
             generate_csv_files(exp)
 
 
