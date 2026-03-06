@@ -1,8 +1,8 @@
 [
     {
         "expName": "",
-        "outputDirectory": "",
-        "sourceDirectory": "",
+        "outputDirectory": "output",
+        "sourceDirectory": ".",
         "executable": "",
         "repetitions": 1,
         "lang": "C",
@@ -12,18 +12,19 @@
                 "metrics": [
                     "real",
                     "user",
-                    "sys"
+                    "sys",
+                    "max_mem"
                 ]
+            },
+            {
+                "tool": "perf",
+                "metrics": []
             }
         ],
         "configurations": [
             {
                 "name": "",
-                "values": [
-                    1,
-                    2,
-                    3
-                ]
+                "values": []
             }
         ]
     }

@@ -1,37 +1,40 @@
-# Implementation was mostly done by hand. Path related stuff was later reworked with the help of CoPilot.
+# Implementation was mostly done by hand.
+# CoPilot helped with making Path related stuff robust and the output parsing.
 
 import itertools
 import json
 import argparse
-import shutil
+import subprocess
 import os
 
 # base directory of this script (used to resolve relative defaults)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 TIME_OUTPUT_FILE = "time-output.csv"
-# default slurm template; make absolute based on script location so that
-# running from any working directory still finds the file.
-DEFAULT_SLURM_FILE = os.path.join(BASE_DIR, "baseline.slurm")
+PERF_OUTPUT_FILE = "perf-output.csv"
 
 
-def generate_requested_executables(exp: dict) -> list[str]:
+def generate_requested_executables(exp: dict) -> list[dict]:
     """Generates a list of commands to execute based on the provided configuration. Commands include measurement tools and their respective metrics."""
     experiments = []
     tools = select_measurement_tool(exp)
-    commands = generate_commands(exp)
+    commands_and_params = generate_commands_with_params(exp)
     for tool in tools:
-        for command in commands:
-            experiments.append(f"{tool} {command}")
-    redirected_exp = redirect_output(
-        experiments, exp["outputDirectory"], exp["expName"]
-    )
-    experiments = redirected_exp
+        for cmd_param in commands_and_params:
+            command = cmd_param["command"]
+            params = cmd_param["params"]
+            experiments.append(
+                {
+                    "tool": tool["name"],
+                    "command": f"{tool['command']} {command}",
+                    "params": params,
+                }
+            )
     return experiments
 
 
-def generate_commands(config: dict) -> list[str]:
-    """Generates a list of commands to execute based on the provided configuration."""
+def generate_commands_with_params(config: dict) -> list[dict]:
+    """Generates a list of commands with their parameters based on the provided configuration."""
     commands = []
     executable = config["executable"]
     configurations = config["configurations"]
@@ -58,21 +61,32 @@ def generate_commands(config: dict) -> list[str]:
                 f"--{name} {value}" for name, value in zip(param_names, values)
             )
         command = f"{executable} {args}"
-        commands.append(command)
+        commands.append({"command": command, "params": list(values)})
     return commands
 
 
-def select_measurement_tool(req_measures: dict) -> list[str]:
+def select_measurement_tool(req_measures: dict) -> list[dict]:
     """Selects the appropriate measurement tools based on the requested tool and metrics."""
     tools = []
+    reps = req_measures["repetitions"]
     for measurement in req_measures["measurements"]:
         tool = measurement["tool"]
         metrics = measurement["metrics"]
-        if tool == "time":
-            tools.append(build_time_command(metrics))
-        else:
-            print(f'Tool "{tool}" is not supported.')
-            continue
+
+        for _ in range(reps):
+            if tool == "time":
+                tools.append({"name": "time", "command": build_time_command(metrics)})
+
+            elif tool == "perf":
+                tools.append(
+                    {
+                        "name": "perf",
+                        "command": build_perf_command(metrics),
+                    }
+                )
+            else:
+                print(f'Tool "{tool}" is not supported.')
+                continue
     return tools
 
 
@@ -95,7 +109,17 @@ def build_time_command(req_measures: dict) -> str:
         args += ","
 
     args = args[:-1]  # Remove the trailing comma
-    command += f'"{args}"'
+    command += args
+    return command
+
+
+def build_perf_command(req_counters: dict) -> str:
+    """
+    Builds the requested perf stat command. Output is in CSV format to stdout.
+    """
+    counters = ",".join(req_counters)
+
+    command = f"perf stat -x, -e {counters} --"
     return command
 
 
@@ -107,7 +131,7 @@ def redirect_output(commands: list[str], output_dir: str, exp_name: str) -> list
         # path used in `build_time_command`.
         if command.strip().startswith("/usr/bin/time"):
             target = os.path.join(output_dir, f"{exp_name}_{TIME_OUTPUT_FILE}")
-            redirected = command + f" 2> {target}"
+            redirected = command + f" 2>> {target}"
         else:
             redirected = command
         redirected_commands.append(redirected)
@@ -129,28 +153,80 @@ def generate_csv_headers(experiment: dict) -> dict[str, str]:
     for measurement in measurements:
         tool = measurement["tool"]
         metrics = measurement["metrics"]
-        header = [exp_name] + param_names + metrics
+        if tool == "time":
+            header = ["name"] + param_names + metrics
+        elif tool == "perf":
+            header = (
+                ["name"]
+                + param_names
+                + ["value", "event", "count", "time_enabled", "time_running"]
+            )
+        else:
+            continue
         headers[tool] = ",".join(header)
     return headers
 
 
-def generate_csv_files(experiment: dict):
-    """Generates CSV files with appropriate headers for each measurement tool based on the experiment configuration."""
+def generate_csv_files(experiment: dict) -> dict[str, str]:
+    """Generates CSV files with appropriate headers for each measurement tool based on the experiment configuration.
+    Returns for each tool the generated file path.
+    """
 
     headers = generate_csv_headers(experiment)
     output_dir = experiment["outputDirectory"]
     exp_name = experiment["expName"]
+    gen_files = dict()
+    file_name = ""
+
     for tool, header in headers.items():
         if tool == "time":
-            os.makedirs(output_dir, exist_ok=True)
-            output_file = os.path.join(output_dir, f"{exp_name}_{TIME_OUTPUT_FILE}")
-            with open(output_file, "w") as f:
-                f.write(header + "\n")
+            file_name = TIME_OUTPUT_FILE
+        elif tool == "perf":
+            file_name = PERF_OUTPUT_FILE
         else:
             print(f'Tool "{tool}" is not supported for CSV generation.')
+            continue
+
+        os.makedirs(output_dir, exist_ok=True)
+        output_file = os.path.join(output_dir, f"{exp_name}_{file_name}")
+        gen_files[tool] = output_file
+        with open(output_file, "w") as f:
+            f.write(header + "\n")
+    return gen_files
 
 
-def main():
+def adapt_paths(exp: dict, config_dir: str) -> dict:
+    """
+    Method adapts all paths to be absolute.
+    """
+    # resolve any relative paths in the experiment specification
+    src_dir = exp.get("sourceDirectory", "")
+    if not os.path.isabs(src_dir):
+        src_dir = os.path.join(config_dir, src_dir)
+    src_dir = os.path.normpath(src_dir)
+    exp["sourceDirectory"] = src_dir
+
+    # place outputDirectory inside sourceDirectory by default
+    out_dir = exp.get("outputDirectory", "")
+    if not os.path.isabs(out_dir):
+        out_dir = os.path.join(src_dir, out_dir)
+    out_dir = os.path.normpath(out_dir)
+    exp["outputDirectory"] = out_dir
+
+    # make executable path absolute
+    executable = exp.get("executable", "")
+    if executable and not os.path.isabs(executable):
+        executable = os.path.join(config_dir, executable)
+    executable = os.path.normpath(executable)
+    exp["executable"] = executable
+
+    return exp
+
+
+def parse_input_arguments():
+    """
+    Method to parse all required input parameters.
+    """
     parser = argparse.ArgumentParser(description="Generate experiment configuration")
     parser.add_argument(
         "--config",
@@ -159,13 +235,73 @@ def main():
         help="Path to the JSON configuration file containing experiment definitions.",
     )
     parser.add_argument(
-        "--base_slurm",
-        type=str,
-        required=False,
-        default=DEFAULT_SLURM_FILE,
-        help="Path to the base SLURM script template.",
+        "--not_execute",
+        action="store_true",
+        help="If set, commands get printed not executed.",
     )
-    args = parser.parse_args()
+    return parser.parse_args()
+
+
+def parse_perf_output(raw_output: subprocess.CompletedProcess[str]) -> list[list[str]]:
+    """
+    Parses the return of the perf stat command.
+    """
+    # Parse stderr: each line is a CSV
+    collected_output = []
+    lines = raw_output.stderr.strip().split("\n")
+    for line in lines:
+        # removing meta comments added by perf
+        if line.startswith("#") or not line.strip():
+            continue
+        parts = line.split(",")
+        if len(parts) >= 5:
+            value, _, event, count, enabled, running = parts[:6]
+            # remove the ":u" added by perf
+            event = event[:-2]
+            output = [value, event, count, enabled, running]
+        else:
+            print("Error while parsing perf output!")
+            output = ["-1", "-1", "-1", "-1", "-1"]
+
+        collected_output.append(output)
+    return collected_output
+
+
+def execute_commands(exp_name: str, commands: list[dict], output_files: dict):
+    """
+    Execute all commands and write the output in parsed format to the correct output files.
+    """
+    for cmd_dict in commands:
+        tool = cmd_dict["tool"]
+        command = cmd_dict["command"]
+        params = cmd_dict["params"]
+
+        result = subprocess.run(
+            command.split(),
+            capture_output=True,
+            text=True,
+        )
+
+        # print output of program
+        print(result.stdout)
+
+        # parse output accordingly
+        if tool == "time":
+            # Parse stderr: comma-separated values
+            values = result.stderr.strip().split(",")
+            row = [exp_name] + params + values
+            with open(output_files["time"], "a") as f:
+                f.write(",".join(str(x) for x in row) + "\n")
+        elif tool == "perf":
+            parsed_output = parse_perf_output(result)
+            for output_line in parsed_output:
+                row = [exp_name] + params + output_line
+                with open(output_files["perf"], "a") as f:
+                    f.write(",".join(str(x) for x in row) + "\n")
+
+
+def main():
+    args = parse_input_arguments()
 
     # make the config path absolute so that relative directories inside the
     # file can be resolved against the config's directory
@@ -175,43 +311,22 @@ def main():
     with open(config_path, "r") as f:
         config = json.load(f)
         for exp in config:
-            # resolve any relative paths in the experiment specification
-            src_dir = exp.get("sourceDirectory", "")
-            if not os.path.isabs(src_dir):
-                src_dir = os.path.join(config_dir, src_dir)
-            exp["sourceDirectory"] = src_dir
+            exp = adapt_paths(exp, config_dir)
 
-            # place outputDirectory inside sourceDirectory by default
-            out_dir = exp.get("outputDirectory", "")
-            if not os.path.isabs(out_dir):
-                out_dir = os.path.join(src_dir, out_dir)
-            exp["outputDirectory"] = out_dir
-
+            src_dir = exp["sourceDirectory"]
+            out_dir = exp["outputDirectory"]
             # ensure directories exist before we try to write into them
             os.makedirs(src_dir, exist_ok=True)
             os.makedirs(out_dir, exist_ok=True)
 
             commands = generate_requested_executables(exp)
+            csv_paths = generate_csv_files(exp)
 
-            exp_slurm = os.path.join(src_dir, f"{exp['expName']}.slurm")
-
-            # copy base slurm file; raise a helpful error if the template cannot
-            # be found
-            base_slurm = args.base_slurm
-            if not os.path.isabs(base_slurm):
-                base_slurm = os.path.join(BASE_DIR, base_slurm)
-            if not os.path.exists(base_slurm):
-                raise FileNotFoundError(f"base slurm template not found: {base_slurm}")
-
-            shutil.copy2(base_slurm, exp_slurm)
-
-            # append generated commands to the slurm script
-            with open(exp_slurm, "a") as f:
-                f.write("\n# Generated commands\n")
-                for _ in range(exp["repetitions"]):
-                    for command in commands:
-                        f.write(f"{command}\n")
-            generate_csv_files(exp)
+            if args.not_execute:
+                for cmd_dict in commands:
+                    print(cmd_dict["command"])
+            else:
+                execute_commands(exp["expName"], commands, csv_paths)
 
 
 if __name__ == "__main__":
