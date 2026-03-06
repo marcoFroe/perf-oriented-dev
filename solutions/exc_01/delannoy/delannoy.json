@@ -1,0 +1,38 @@
+[
+    {
+        "expName": "delannoy",
+        "outputDirectory": "output",
+        "sourceDirectory": ".",
+        "executable": "delannoy.exe",
+        "repetitions": 10,
+        "lang": "C",
+        "measurements": [
+            {
+                "tool": "time",
+                "metrics": [
+                    "real",
+                    "user",
+                    "sys",
+                    "max_mem"
+                ]
+            },
+            {
+                "tool": "perf",
+                "metrics": [
+                    "cache-misses",
+                    "branch-misses"
+                ]
+            }
+        ],
+        "configurations": [
+            {
+                "name": "size",
+                "values": [
+                    1,
+                    2,
+                    3
+                ]
+            }
+        ]
+    }
+]
