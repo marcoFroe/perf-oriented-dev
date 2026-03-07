@@ -12,3 +12,7 @@ tools/build_debug
 tools/build_release
 .venv
 *.exe
+
+/.vscode
+/.venv
+*.log
