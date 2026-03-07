@@ -1,9 +1,9 @@
 [
     {
-        "expName": "delannoy",
+        "expName": "nbody",
         "outputDirectory": "output",
         "sourceDirectory": ".",
-        "executable": "delannoy.exe",
+        "executable": "nbody.exe",
         "repetitions": 10,
         "lang": "C",
         "measurements": [
@@ -19,11 +19,9 @@
         ],
         "configurations": [
             {
-                "name": "size",
+                "name": "default",
                 "values": [
-                    12,
-                    14,
-                    16
+                    1
                 ]
             }
         ]

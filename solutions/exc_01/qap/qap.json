@@ -1,9 +1,9 @@
 [
     {
-        "expName": "delannoy",
+        "expName": "qap",
         "outputDirectory": "output",
         "sourceDirectory": ".",
-        "executable": "delannoy.exe",
+        "executable": "qap.exe",
         "repetitions": 10,
         "lang": "C",
         "measurements": [
@@ -19,11 +19,10 @@
         ],
         "configurations": [
             {
-                "name": "size",
+                "name": "problem",
                 "values": [
-                    12,
-                    14,
-                    16
+                    "problems/chr15a.dat",
+                    "problems/chr18a.dat"
                 ]
             }
         ]
