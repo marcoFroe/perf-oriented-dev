@@ -9,3 +9,11 @@ filesearch,1,0.00,0.00,0.00,1424
 filesearch,1,0.00,0.00,0.00,1444
 filesearch,1,0.00,0.00,0.00,1520
 filesearch,1,0.00,0.00,0.00,1448
+
+# Statistics computed by automated_evaluator.py
+# Configuration: config_default=1
+# max_mem: 1460.0 [1112.888888888889]
+# real: 0.0 [0.0]
+# sys: 0.0 [0.0]
+# user: 0.0 [0.0]
+#

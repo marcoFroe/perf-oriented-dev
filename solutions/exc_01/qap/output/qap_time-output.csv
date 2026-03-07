@@ -1,2 +1,35 @@
 name,config_problem,real,user,sys,max_mem
 qap,problems/chr15a.dat,3.45,3.43,0.00,1584
+qap,problems/chr18a.dat,175.71,175.33,0.00,1488
+qap,problems/chr15a.dat,3.45,3.44,0.00,1492
+qap,problems/chr18a.dat,174.50,174.07,0.00,1568
+qap,problems/chr15a.dat,3.44,3.43,0.00,1568
+qap,problems/chr18a.dat,175.39,174.98,0.00,1508
+qap,problems/chr15a.dat,3.45,3.44,0.00,1588
+qap,problems/chr18a.dat,174.59,174.15,0.00,1488
+qap,problems/chr15a.dat,3.45,3.44,0.00,1484
+qap,problems/chr18a.dat,174.72,174.27,0.00,1504
+qap,problems/chr15a.dat,3.44,3.43,0.00,1588
+qap,problems/chr18a.dat,175.33,174.92,0.00,1508
+qap,problems/chr15a.dat,3.44,3.43,0.00,1496
+qap,problems/chr18a.dat,175.39,174.99,0.00,1476
+qap,problems/chr15a.dat,3.44,3.43,0.00,1488
+qap,problems/chr18a.dat,174.49,174.06,0.00,1496
+qap,problems/chr15a.dat,3.46,3.45,0.00,1500
+qap,problems/chr18a.dat,175.22,174.83,0.00,1532
+qap,problems/chr15a.dat,3.49,3.48,0.00,1492
+qap,problems/chr18a.dat,175.37,174.97,0.00,1492
+
+# Statistics computed by automated_evaluator.py
+# Configuration: config_problem=problems/chr15a.dat
+# max_mem: 1528.0 [2208.0]
+# real: 3.451 [0.00023222222222222437]
+# sys: 0.0 [0.0]
+# user: 3.44 [0.0002444444444444429]
+#
+# Configuration: config_problem=problems/chr18a.dat
+# max_mem: 1506.0 [708.4444444444445]
+# real: 175.071 [0.2009655555555543]
+# sys: 0.0 [0.0]
+# user: 174.657 [0.21922333333333388]
+#

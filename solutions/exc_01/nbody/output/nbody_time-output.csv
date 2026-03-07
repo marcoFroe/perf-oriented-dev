@@ -9,3 +9,11 @@ nbody,1,2.58,2.57,0.00,1944
 nbody,1,2.59,2.58,0.00,1872
 nbody,1,2.58,2.57,0.00,1872
 nbody,1,2.59,2.58,0.00,1868
+
+# Statistics computed by automated_evaluator.py
+# Configuration: config_default=1
+# max_mem: 1886.4 [537.6]
+# real: 2.585 [2.7777777777776593e-05]
+# sys: 0.0 [0.0]
+# user: 2.575 [2.777777777777906e-05]
+#

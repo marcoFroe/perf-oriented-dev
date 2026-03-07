@@ -9,3 +9,11 @@ mmul,1,2.08,2.06,0.00,24516
 mmul,1,2.09,2.07,0.00,24492
 mmul,1,2.10,2.09,0.00,24524
 mmul,1,2.27,2.25,0.00,24604
+
+# Statistics computed by automated_evaluator.py
+# Configuration: config_default=1
+# max_mem: 24544.8 [2363.733333333333]
+# real: 2.125 [0.005916666666666665]
+# sys: 0.001 [1e-05]
+# user: 2.107 [0.00577888888888889]
+#
