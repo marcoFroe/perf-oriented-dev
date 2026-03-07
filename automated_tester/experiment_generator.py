@@ -147,6 +147,8 @@ def generate_csv_headers(experiment: dict) -> dict[str, str]:
 
     # Extract parameter names
     param_names = [config["name"] for config in configurations]
+    # Add config_ to each param for later parsing
+    param_names = ["config_" + param for param in param_names]
 
     # Generate headers for each tool
     headers = {}
@@ -283,7 +285,7 @@ def execute_commands(exp_name: str, commands: list[dict], output_files: dict):
         )
 
         # print output of program
-        print(result.stdout)
+        print(result.stdout, flush=True)
 
         # parse output accordingly
         if tool == "time":
@@ -292,12 +294,14 @@ def execute_commands(exp_name: str, commands: list[dict], output_files: dict):
             row = [exp_name] + params + values
             with open(output_files["time"], "a") as f:
                 f.write(",".join(str(x) for x in row) + "\n")
+                f.flush()
         elif tool == "perf":
             parsed_output = parse_perf_output(result)
             for output_line in parsed_output:
                 row = [exp_name] + params + output_line
                 with open(output_files["perf"], "a") as f:
                     f.write(",".join(str(x) for x in row) + "\n")
+                    f.flush()
 
 
 def main():
