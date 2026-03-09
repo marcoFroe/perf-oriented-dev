@@ -4,7 +4,7 @@ Author: Marco Fröhlich
 ## Exercise 1 - Preparation
 
 ### Parameters
-Following is a description of the parameters needed for each program. I considered the programs as black boxes and did not change any source code files.
+Following is a description of the parameters needed for each program. I considered the programs as black boxes and did not change any source code files, compilation was done using the provided `CMAKE` instructions.
 
 - *delannoy*: problem size between 1 and 22
 - *filegen*: needs instruction on how many directories and files to generate and at what size -- `./filegen <num_directories> <num_files_per_directory> <min_file_size> <max_file_size>`
