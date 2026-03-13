@@ -225,7 +225,7 @@ def adapt_paths(exp: dict, config_dir: str) -> dict:
     return exp
 
 
-def parse_input_arguments():
+def parse_input_arguments() -> argparse.Namespace:
     """
     Method to parse all required input parameters.
     """
@@ -269,7 +269,7 @@ def parse_perf_output(raw_output: subprocess.CompletedProcess[str]) -> list[list
     return collected_output
 
 
-def execute_commands(exp_name: str, commands: list[dict], output_files: dict):
+def execute_commands(exp_name: str, commands: list[dict], output_files: dict) -> None:
     """
     Execute all commands and write the output in parsed format to the correct output files.
     """
@@ -304,7 +304,7 @@ def execute_commands(exp_name: str, commands: list[dict], output_files: dict):
                     f.flush()
 
 
-def main():
+def main() -> None:
     args = parse_input_arguments()
 
     # make the config path absolute so that relative directories inside the
