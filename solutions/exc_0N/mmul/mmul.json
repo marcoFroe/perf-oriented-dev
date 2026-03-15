@@ -1,10 +1,10 @@
 [
     {
-        "expName": "mmul",
+        "expName": "mmul-1000",
         "outputDirectory": "output",
         "sourceDirectory": ".",
         "executable": "/home/cb76/cb761228/perf-oriented-dev/small_samples/build/mmul_1000",
-        "repetitions": 10,
+        "repetitions": 25,
         "lang": "C",
         "measurements": [
             {
@@ -27,11 +27,11 @@
         ]
     },
     {
-        "expName": "mmul",
+        "expName": "mmul-2000",
         "outputDirectory": "output",
         "sourceDirectory": ".",
         "executable": "/home/cb76/cb761228/perf-oriented-dev/small_samples/build/mmul_2000",
-        "repetitions": 10,
+        "repetitions": 25,
         "lang": "C",
         "measurements": [
             {
@@ -54,11 +54,11 @@
         ]
     },
     {
-        "expName": "mmul",
+        "expName": "mmul-5000",
         "outputDirectory": "output",
         "sourceDirectory": ".",
         "executable": "/home/cb76/cb761228/perf-oriented-dev/small_samples/build/mmul_5000",
-        "repetitions": 10,
+        "repetitions": 25,
         "lang": "C",
         "measurements": [
             {
