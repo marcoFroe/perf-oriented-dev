@@ -1,0 +1,15 @@
+[global]
+ioengine=libaio
+direct=1          # Bypass OS cache
+runtime=1800
+time_based
+group_reporting
+
+[background-load]
+rw=randrw         # Mixed random read/write
+rwmixread=70      # 70% reads, 30% writes
+bs=4k             # 4KB block size
+iodepth=32         # Queue depth
+numjobs=4         # Number of parallel jobs
+size=10G          # Total size per job
+filename=/tmp/generated_cb761228/fio_fiel.dat 
