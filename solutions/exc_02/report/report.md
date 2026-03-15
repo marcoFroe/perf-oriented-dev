@@ -1,6 +1,6 @@
 # VU Performance Oriented Computing -- Sheet 02
 Author: Marco Fröhlich
-
+*Disclaimer:* Due to time limitations only experiments were only carried out on the LCC3 and not on my local machine.
 
 ## Exercise 01 -- External CPU load
 
@@ -10,8 +10,6 @@ Running the problem under load was done like this inside the `slurm` file:
 ```bash
 tools/load_generator/exec_with_workstation_heavy.sh "python automated_tester/experiment_generator.py --config <CONFIG>
 ```
-
-Since I spent a lot of time tweaking with experiment setting trying to get any meaningful differences between the normal runtime and the one using the load script I opted to not repeat all experiments on my local machine as well.
 
 ### Delannoy
 
@@ -28,14 +26,16 @@ For the `delannoy` experiments introducing external CPU load is not noticeable.
 
 ### File Generation
 
-| experiment | parameters | with load | real time | variance |
-| ---------- | ---------- | --------- | --------- | -------- |
-| filegen    | 10,10      | false     | 0.8252    | 7.85e-02 |
-| filgen     | 10,50      | false     | 3.9592    | 6.33e-02 |
-| filegen    | 50,50      | false     | 21.2008   | 1.354    |
-| filegen    | 10,10      | true      | 0.8144    | 2.90e-02 |
-| filgen     | 10,50      | true      | 4.116     | 0.4514   |
-| filegen    | 50,50      | true      | 21.7808   | 8.606    |
+| experiment | parameters | with load | real time | variance   |
+| ---------- | ---------- | --------- | --------- | ---------- |
+| filegen    | 10,10      | false     | 0.8252    | 7.85e-02   |
+| filegen    | 10,50      | false     | 3.9592    | 6.33e-02   |
+| filegen    | 50,10      | false     | 4.1184    | 6.6086e-02 |
+| filegen    | 50,50      | false     | 21.2008   | 1.354      |
+| filegen    | 10,10      | true      | 0.8144    | 2.90e-02   |
+| filgen     | 10,50      | true      | 4.2568    | 0.3832     |
+| filgen     | 50,10      | true      | 4.116     | 0.4514     |
+| filegen    | 50,50      | true      | 21.7808   | 8.606      |
 
 For the `filegen` experiments introducing external CPU load is slightly noticeable, especially when more files are generated. Especially the variance of runtime gets greater with the load enabled.
 
@@ -88,3 +88,23 @@ Here the version run with load enabled took slightly longer.
 
 ### Conclusion
 Apparently the load used does not affect the runtime of the used programs. Or I have not used it correctly.
+
+
+## Exercise 02 -- External I/O load
+
+### Tool Used
+For my configurable load generator I used the tool `fio` (flexible I/O tester) that was already available on the LCC3. I configured to tool to use do random reads and write in a ratio of 70/30 on the `tmp` directory of the node. In total a file of size 10GB is created and 4 jobs to those specified random accesses. To make this into a tool I took inspiration from the `exec_with_workstation_heavy.sh` script and wrap my program calls into a similar shell call. At first the `fio` jobs are started than the script sleeps for 10 seconds so that the load can balance out after this my program is executed and once that completes `fio` is canceled and the file it generated is removed.
+
+### Impact
+All experiments where carried out like in task 1. 
+
+| experiment | parameters | real time | variance  | no load (time[var])  |
+| ---------- | ---------- | --------- | --------- | -------------------- |
+| filesearch | -          | 0.2552    | 1.151e-04 | 0.2588 [ 5.527e-04]  |
+| filegen    | 10,10      | 2.7879    | 0.3872    | 0.8252 [ 7.85e-02  ] |
+| filegen    | 10,50      | 14.3995   | 1.5541    | 3.9592 [ 6.33e-02  ] |
+| filegen    | 50,10      | 13.7326   | 1.9461    | 4.1184 [ 6.6086e-02] |
+| filegen    | 50,50      | 67.439    | 24.8689   | 21.2008[ 1.354     ] |
+
+Using my tool as described had no measurable impact on the performance of `filesearch`.
+For the `fielgen` experiments the impact is very much noticeable. All runs took nearly more than 3 times as long as in the original version.

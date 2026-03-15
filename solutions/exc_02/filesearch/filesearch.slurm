@@ -15,6 +15,9 @@ source /home/cb76/cb761228/perf-oriented-dev/.venv/bin/activate
 #/home/cb76/cb761228/perf-oriented-dev/tools/load_generator/exec_with_workstation_heavy.sh "python /home/cb76/cb761228/perf-oriented-dev/automated_tester/experiment_generator.py --config ./filesearch.json"
 
 #WITHOUT LOAD
-python /home/cb76/cb761228/perf-oriented-dev/automated_tester/experiment_generator.py --config ./filesearch.json
+#python /home/cb76/cb761228/perf-oriented-dev/automated_tester/experiment_generator.py --config ./filesearch.json
+
+# WITH COSTUM IO LOAD
+/home/cb76/cb761228/perf-oriented-dev/solutions/IO-Loader/io_load_generator.sh "python /home/cb76/cb761228/perf-oriented-dev/automated_tester/experiment_generator.py --config ./filesearch.json"
 
 rm -r /tmp/generated_cb761228/
