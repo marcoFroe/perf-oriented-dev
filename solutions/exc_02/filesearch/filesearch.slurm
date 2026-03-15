@@ -17,3 +17,4 @@ source /home/cb76/cb761228/perf-oriented-dev/.venv/bin/activate
 #WITHOUT LOAD
 python /home/cb76/cb761228/perf-oriented-dev/automated_tester/experiment_generator.py --config ./filesearch.json
 
+rm -r /tmp/generated_cb761228/
