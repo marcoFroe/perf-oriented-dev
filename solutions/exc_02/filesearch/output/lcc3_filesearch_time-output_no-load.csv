@@ -1,0 +1,34 @@
+name,config_default,real,user,sys,max_mem
+filesearch,1,0.28,0.05,0.22,1460
+filesearch,1,0.24,0.03,0.21,1524
+filesearch,1,0.25,0.04,0.20,1508
+filesearch,1,0.25,0.04,0.21,1524
+filesearch,1,0.26,0.04,0.21,1448
+filesearch,1,0.25,0.04,0.20,1476
+filesearch,1,0.25,0.03,0.21,1564
+filesearch,1,0.24,0.04,0.19,1456
+filesearch,1,0.26,0.05,0.20,1456
+filesearch,1,0.25,0.03,0.21,1456
+filesearch,1,0.26,0.04,0.21,1452
+filesearch,1,0.24,0.04,0.19,1456
+filesearch,1,0.25,0.05,0.20,1564
+filesearch,1,0.24,0.04,0.20,1456
+filesearch,1,0.26,0.02,0.23,1480
+filesearch,1,0.25,0.04,0.21,1468
+filesearch,1,0.25,0.04,0.21,1480
+filesearch,1,0.25,0.04,0.20,1464
+filesearch,1,0.27,0.05,0.21,1504
+filesearch,1,0.26,0.03,0.22,1452
+filesearch,1,0.36,0.05,0.21,1452
+filesearch,1,0.27,0.03,0.21,1524
+filesearch,1,0.26,0.04,0.21,1448
+filesearch,1,0.25,0.03,0.20,1448
+filesearch,1,0.27,0.03,0.21,1476
+
+# Statistics computed by automated_evaluator.py
+# Configuration: config_default=1
+# max_mem: 1479.84 [1267.3066666666666]
+# real: 0.25880000000000003 [0.0005526666666666667]
+# sys: 0.2072 [7.933333333333327e-05]
+# user: 0.038400000000000004 [6.400000000000002e-05]
+#

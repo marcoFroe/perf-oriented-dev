@@ -1,0 +1,49 @@
+[
+    {
+        "expName": "filegen",
+        "outputDirectory": "output",
+        "sourceDirectory": ".",
+        "executable": "/home/cb76/cb761228/perf-oriented-dev/small_samples/build/filegen",
+        "repetitions": 25,
+        "lang": "C",
+        "measurements": [
+            {
+                "tool": "time",
+                "metrics": [
+                    "real",
+                    "user",
+                    "sys",
+                    "max_mem"
+                ]
+            }
+        ],
+        "configurations": [
+            {
+                "name": "num_directories",
+                "values": [
+                    10,
+                    50
+                ]
+            },
+            {
+                "name": "num_files_per_directory",
+                "values": [
+                    10,
+                    50
+                ]
+            },
+            {
+                "name": "min_file_size",
+                "values": [
+                    3000
+                ]
+            },
+            {
+                "name": "max_file_size",
+                "values": [
+                    6000
+                ]
+            }
+        ]
+    }
+]

@@ -1,0 +1,83 @@
+[
+    {
+        "expName": "nbody-1000",
+        "outputDirectory": "output",
+        "sourceDirectory": ".",
+        "executable": "/home/cb76/cb761228/perf-oriented-dev/small_samples/build/nbody_par-1000_iter-100",
+        "repetitions": 25,
+        "lang": "C",
+        "measurements": [
+            {
+                "tool": "time",
+                "metrics": [
+                    "real",
+                    "user",
+                    "sys",
+                    "max_mem"
+                ]
+            }
+        ],
+        "configurations": [
+            {
+                "name": "particles",
+                "values": [
+                    1000
+                ]
+            }
+        ]
+    },
+    {
+        "expName": "nbody-2000",
+        "outputDirectory": "output",
+        "sourceDirectory": ".",
+        "executable": "/home/cb76/cb761228/perf-oriented-dev/small_samples/build/nbody_par-2000_iter-100",
+        "repetitions": 25,
+        "lang": "C",
+        "measurements": [
+            {
+                "tool": "time",
+                "metrics": [
+                    "real",
+                    "user",
+                    "sys",
+                    "max_mem"
+                ]
+            }
+        ],
+        "configurations": [
+            {
+                "name": "particles",
+                "values": [
+                    2000
+                ]
+            }
+        ]
+    },
+    {
+        "expName": "nbody-5000",
+        "outputDirectory": "output",
+        "sourceDirectory": ".",
+        "executable": "/home/cb76/cb761228/perf-oriented-dev/small_samples/build/nbody_par-5000_iter-100",
+        "repetitions": 25,
+        "lang": "C",
+        "measurements": [
+            {
+                "tool": "time",
+                "metrics": [
+                    "real",
+                    "user",
+                    "sys",
+                    "max_mem"
+                ]
+            }
+        ],
+        "configurations": [
+            {
+                "name": "particles",
+                "values": [
+                    5000
+                ]
+            }
+        ]
+    }
+]
