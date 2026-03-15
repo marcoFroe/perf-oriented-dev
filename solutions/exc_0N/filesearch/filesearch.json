@@ -1,0 +1,29 @@
+[
+    {
+        "expName": "filesearch",
+        "outputDirectory": "output",
+        "sourceDirectory": ".",
+        "executable": "/home/cb76/cb761228/perf-oriented-dev/small_samples/build/filesearch",
+        "repetitions": 10,
+        "lang": "C",
+        "measurements": [
+            {
+                "tool": "time",
+                "metrics": [
+                    "real",
+                    "user",
+                    "sys",
+                    "max_mem"
+                ]
+            }
+        ],
+        "configurations": [
+            {
+                "name": "default",
+                "values": [
+                    1
+                ]
+            }
+        ]
+    }
+]
