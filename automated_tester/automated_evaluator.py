@@ -168,79 +168,26 @@ def append_statistics_to_csv(csv_file_path: str, statistics_dict: Dict) -> None:
         print(f"Error appending statistics to {csv_file_path}: {e}")
 
 
-def generate_violin_plots(
-    csv_file_path: str,
-    statistics_dict: Dict,
-    target_column: str = "real",
-) -> None:
+def has_evaluation_section(csv_file_path: str) -> bool:
     """
-    Generate violin plots for the specified target column for each configuration group.
-    Saves plots as PNG files in the same directory as the CSV file.
+    Check if a CSV file already has an evaluation section at the end.
+    Returns True if an evaluation section is found, False otherwise.
     """
-    if plt is None:
-        print("Matplotlib not available. Skipping violin plot generation.")
-        return
-
-    # Extract config headers
-    config_headers = statistics_dict.pop("__config_headers__", [])
-
-    if not statistics_dict:
-        return
-
-    # Extract directory and filename
-    dirname = os.path.dirname(csv_file_path)
-    basename = os.path.basename(csv_file_path)
-
-    # Read all data once
-    with open(csv_file_path, "r", encoding="utf-8") as f:
-        reader = csv.reader(f)
-        headers = next(reader)
-        rows = list(reader)
-
-    # Find target column index
     try:
-        target_idx = headers.index(target_column)
-    except ValueError:
-        print(f"    Target column '{target_column}' not found in {csv_file_path}")
-        return
-
-    # Find config column indices
-    config_indices = [i for i, h in enumerate(headers) if h.startswith("config_")]
-
-    # Group data by configuration
-    for config_key, group_stats in statistics_dict.items():
-        if target_column in group_stats:
-            numeric_values = []
-            for row in rows:
-                # Check if row matches configuration
-                config_match = True
-                for j, idx in enumerate(config_indices):
-                    if row[idx] != config_key[j]:
-                        config_match = False
-                        break
-                if config_match:
-                    if row[target_idx].strip() and is_numeric(row[target_idx]):
-                        numeric_values.append(float(row[target_idx]))
-
-            if numeric_values:
-                # Generate plot
-                plt.figure()
-                plt.violinplot(numeric_values, showmeans=True)
-                config_str = ", ".join(
-                    f"{h}={v}" for h, v in zip(config_headers, config_key)
-                )
-                plt.title(f"{basename}\nConfig: {config_str}\nColumn: {target_column}")
-                plt.ylabel(target_column)
-                plt.grid(True)
-
-                # Save plot
-                plot_filename = os.path.join(
-                    dirname,
-                    f"{os.path.splitext(basename)[0]}_config_{'_'.join(str(v) for v in config_key)}_violin.png",
-                )
-                plt.savefig(plot_filename, dpi=200, bbox_inches="tight")
-                plt.close()
-                print(f"    Generated violin plot: {plot_filename}")
+        with open(csv_file_path, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+            # Check if there are at least 2 lines and if the last non-empty line starts with '# Statistics'
+            for line in reversed(lines):
+                stripped = line.strip()
+                if stripped.startswith(
+                    "# Statistics computed by automated_evaluator.py"
+                ):
+                    return True
+                if stripped and not stripped.startswith("#"):
+                    return False
+    except Exception as e:
+        print(f"Error checking evaluation section in {csv_file_path}: {e}")
+    return False
 
 
 def process_output_folders(root_path: str = ".") -> None:
@@ -257,16 +204,15 @@ def process_output_folders(root_path: str = ".") -> None:
             for filename in filenames:
                 if filename.lower().endswith(".csv"):
                     csv_file_path = os.path.join(dirpath, filename)
+                    if has_evaluation_section(csv_file_path):
+                        continue
                     print(f"  Processing CSV file: {csv_file_path}")
 
                     # Compute statistics
                     stats = compute_statistics(csv_file_path)
 
                     # Append statistics to file
-                    # append_statistics_to_csv(csv_file_path, stats.copy())
-
-                    # Generate violin plots
-                    generate_violin_plots(csv_file_path, stats.copy())
+                    append_statistics_to_csv(csv_file_path, stats.copy())
 
                     # Count configuration groups (exclude metadata key)
                     num_groups = len(
