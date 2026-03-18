@@ -7,9 +7,11 @@ For this analysis the program versions `_a` and `_b` were used. The files where 
 ### Home laptop
 Home Device Information:
 - CPU: 8 $\times$ AMD Ryzen 7 3700U (4 physical cores)
-- RAM: 29,3 GiB of RAM
+- RAM: 29,3 GiB of 
+- OS: Kubuntu 24.04 
+- gprof version: (GNU Binutils for Ubuntu) 2.42
 
-#### `_a`:
+#### `npb_bt_a`:
 Total Runtime: 47.18 sec
 
 **Flat profile:**
@@ -27,7 +29,7 @@ Total Runtime: 47.18 sec
 
 Everything below took less than 1 sec.
 
-#### `_b`: 
+#### `npb_bt_b`: 
 Total Runtime: 200.06 seconds
 
 **Flat profile:**
@@ -44,3 +46,42 @@ Total Runtime: 200.06 seconds
 | 1.13   | 198.79             | 2.27         | 201       | 11.29        | 11.29         | add         |
 
 
+### LCC3GNU 
+- gprof version: 2.30-128.el8_10
+ 
+
+#### `npb_bt_a`:
+Total runtime: 69.14 seconds
+
+
+**Flat profile:**
+
+| % time | cumulative seconds | self seconds | calls     | self ms/call | total ms/call | name        |
+| ------ | ------------------ | ------------ | --------- | ------------ | ------------- | ----------- |
+| 30.77  | 21.27              | 21.27        | 146029716 | 0.00         | 0.00          | binvcrhs    |
+| 18.40  | 33.99              | 12.72        | 146029716 | 0.00         | 0.00          | matmul_sub  |
+| 12.43  | 42.59              | 8.59         | 201       | 42.74        | 105.69        | y_solve     |
+| 11.76  | 50.72              | 8.13         | 201       | 40.45        | 103.40        | z_solve     |
+| 10.70  | 58.12              | 7.40         | 201       | 36.82        | 99.77         | x_solve     |
+| 9.49   | 64.68              | 6.56         | 202       | 32.48        | 32.48         | compute_rhs |
+| 5.51   | 68.49              | 3.81         | 146029716 | 0.00         | 0.00          | matvec_sub  |
+| 0.46   | 68.81              | 0.32         | -         | -            | -             | add         |
+
+#### `npb_bt_b`:
+Total runtime: 288.58 seconds
+
+
+**Flat profile:**
+
+| % time | cumulative seconds | self seconds | calls     | self ms/call | total ms/call | name        |
+| ------ | ------------------ | ------------ | --------- | ------------ | ------------- | ----------- |
+| 30.77  | 88.78              | 88.78        | 609030000 | 0.00         | 0.00          | binvcrhs    |
+| 18.86  | 143.21             | 54.43        | 609030000 | 0.00         | 0.00          | matmul_sub  |
+| 12.70  | 179.86             | 36.65        | 201       | 182.31       | 443.38        | z_solve     |
+| 11.64  | 213.45             | 33.59        | 201       | 167.14       | 428.20        | y_solve     |
+| 10.80  | 244.62             | 31.17        | 201       | 155.10       | 416.16        | x_solve     |
+| 9.45   | 271.88             | 27.25        | 202       | 134.92       | 134.92        | compute_rhs |
+| 4.71   | 285.48             | 13.60        | 609030000 | 0.00         | 0.00          | matvec_sub  |
+| 0.54   | 287.04             | 1.56         | -         | -            | -             | add         |
+
+#### Analysis:
