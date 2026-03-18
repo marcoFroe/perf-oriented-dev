@@ -269,14 +269,42 @@ def parse_perf_output(raw_output: subprocess.CompletedProcess[str]) -> list[list
     return collected_output
 
 
+def write_raw_output(
+    exp_name: str,
+    result: subprocess.CompletedProcess[str],
+    output_files: dict,
+    cmd: dict,
+) -> list[str]:
+
+    params = cmd["params"]
+    tool = cmd["tool"]
+    row = []
+
+    # parse output accordingly
+    if tool == "time":
+        # Parse stderr: comma-separated values
+        values = result.stderr.strip().split(",")
+        row = [exp_name] + params + values
+        with open(output_files["time"], "a") as f:
+            f.write(",".join(str(x) for x in row) + "\n")
+            f.flush()
+    elif tool == "perf":
+        parsed_output = parse_perf_output(result)
+        for output_line in parsed_output:
+            row = [exp_name] + params + output_line
+            with open(output_files["perf"], "a") as f:
+                f.write(",".join(str(x) for x in row) + "\n")
+                f.flush()
+
+    return row
+
+
 def execute_commands(exp_name: str, commands: list[dict], output_files: dict) -> None:
     """
     Execute all commands and write the output in parsed format to the correct output files.
     """
     for cmd_dict in commands:
-        tool = cmd_dict["tool"]
         command = cmd_dict["command"]
-        params = cmd_dict["params"]
 
         result = subprocess.run(
             command.split(),
@@ -287,21 +315,8 @@ def execute_commands(exp_name: str, commands: list[dict], output_files: dict) ->
         # print output of program
         print(result.stdout, flush=True)
 
-        # parse output accordingly
-        if tool == "time":
-            # Parse stderr: comma-separated values
-            values = result.stderr.strip().split(",")
-            row = [exp_name] + params + values
-            with open(output_files["time"], "a") as f:
-                f.write(",".join(str(x) for x in row) + "\n")
-                f.flush()
-        elif tool == "perf":
-            parsed_output = parse_perf_output(result)
-            for output_line in parsed_output:
-                row = [exp_name] + params + output_line
-                with open(output_files["perf"], "a") as f:
-                    f.write(",".join(str(x) for x in row) + "\n")
-                    f.flush()
+        # Write raw command
+        row = write_raw_output(exp_name, result, output_files, command)
 
 
 def main() -> None:

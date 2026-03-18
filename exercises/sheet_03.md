@@ -10,6 +10,8 @@ Use traditional profiling with `gprof` in order to gain insight into the CPU tim
 
 Summarize, interpret and report your findings.
 
+DO THIS ON OWN AND LCC3.
+
 
 B) Hybrid trace profiling
 -------------------------
@@ -20,6 +22,7 @@ Try to measure the overhead of both gprof and Tracy, compared to the native exec
 
 You do not necessarily need to do this on LCC3, but can do so for extra clout.
 
+LCC3 SETUP MIGHT BE MESSY.
 
 Submission
 ----------
