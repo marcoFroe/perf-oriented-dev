@@ -7,6 +7,8 @@ larger_samples/npb_bt/build_release
 larger_samples/ssca2/build
 larger_samples/ssca2/build_debug
 larger_samples/ssca2/build_release
+larger_samples/npb_bt-tracy/build
+
 tools/build
 tools/build_debug
 tools/build_release
