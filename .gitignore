@@ -16,3 +16,4 @@ tools/build_release
 /.vscode
 /.venv
 *.log
+/tracy
