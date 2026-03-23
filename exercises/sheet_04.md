@@ -1,7 +1,7 @@
 Exercise Sheet 4
 ================
 
-For this exercise, perform all measurments on LCC3. You can of course (and probably should) run analysis tools (e.g. massif-visualizer) locally.
+For this exercise, perform all measurements on LCC3. You can of course (and probably should) run analysis tools (e.g. massif-visualizer) locally.
 
 A) Memory profiling
 -------------------

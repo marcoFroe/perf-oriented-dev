@@ -10,6 +10,7 @@ Home Device Information:
 - RAM: 29,3 GiB of 
 - OS: Kubuntu 24.04 
 - gprof version: (GNU Binutils for Ubuntu) 2.42
+- gcc version: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
 
 #### `npb_bt_a`:
 Total Runtime: 47.18 sec
@@ -46,8 +47,9 @@ Total Runtime: 200.06 seconds
 | 1.13   | 198.79             | 2.27         | 201       | 11.29        | 11.29         | add         |
 
 
-### LCC3GNU 
+### LCC3
 - gprof version: 2.30-128.el8_10
+- gcc version: gcc (Spack GCC) 12.2.0
  
 
 #### `npb_bt_a`:
@@ -85,3 +87,28 @@ Total runtime: 288.58 seconds
 | 0.54   | 287.04             | 1.56         | -         | -            | -             | add         |
 
 #### Analysis:
+Interestingly the function `compute_rhs` took a significantly bigger portion of the computation time on my own system than on the LCC3 (9.5 % vs. 12.2 %), which is surprising to me. Also, `gprof` was apparently unable to collect metrics about the individual `add` calls. Other than that the amount of calls and percentages spent in the individual function was about the same, which was to be expected. 
+
+It is apparent from the data that functions that are used often are either very small or very good optimized since each call takes about 0.00 ms to compute. So even though 1/2 of the time is spent in the methods `binvcrhs` and `matmul_sub` each individual call is so very short that there is possible nothing to optimize.
+
+Another 1/3 of time is spent in the different `<d>_solve` functions, since those have fewer calls and each call spends significant time in itself, there might be room for optimization.
+
+## Task B -- Hybrid trace profiling
+
+#### Tracy
+
+I tried to compile the profiler on my private systems (Laptop and Desktop, both with same OS) and failed to do so. The issue was some compatibility problems with Wayland. Since I am running a default Kubuntu OS I am not running Wayland as my display manager but Plasma(X11), so please excuse that I am not willing to mess with my setup and risk breaking it just to run a tool once and probably never again. 
+
+If you are interested here is the stack trace of the profiler compile run:
+```bash
+tracy/profiler/src/BackendWayland.cpp:1138:25: error: ‘wl_display_dispatch_timeout’ was not declared in this scope; did you mean ‘wl_display_dispatch_queue’?
+ 1138 |     while( s_running && wl_display_dispatch_timeout( s_dpy, &zero ) != -1 )
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                         wl_display_dispatch_queue
+```
+And no switching to the suggested method call did not work.
+
+I only saw the tracy legacy build post after, submitting the exercises. But I don't see this in the CMAKE file of my clone so what ever. Still does not work so yeah that did not change a thing.
+
+#### Performance impact
+I could not measure any significant performance impact when running the experiments with `-pg` enable or without. Technically speaking the time gprof needs to create the flat profile report counts also towards the runtime of the experiment with profiler enable, but it is so fast that `/usr/bin/time` can not measure an execution time and just returns `0.00`.
