@@ -1,0 +1,82 @@
+[
+    {
+        "expName": "ssca2-hardware-cache",
+        "outputDirectory": "output",
+        "sourceDirectory": ".",
+        "executable": "/home/cb76/cb761228/perf-oriented-dev/larger_samples/ssca2/build/ssca2",
+        "repetitions": 1,
+        "lang": "C",
+        "measurements": [
+            {
+                "tool": "perf",
+                "metrics": [
+                    "L1-dcache-load-misses",
+                    "L1-dcache-loads",
+                    "L1-dcache-prefetch-misses",
+                    "L1-dcache-prefetches"
+                ]
+            },
+            {
+                "tool": "perf",
+                "metrics": [
+                    "L1-dcache-store-misses",
+                    "L1-icache-load-misses",
+                    "L1-icache-loads",
+                    "LLC-load-misses"
+                ]
+            },
+            {
+                "tool": "perf",
+                "metrics": [
+                    "LLC-loads",
+                    "LLC-prefetch-misses",
+                    "LLC-prefetches",
+                    "LLC-store-misses"
+                ]
+            },
+            {
+                "tool": "perf",
+                "metrics": [
+                    "LLC-stores",
+                    "branch-load-misses",
+                    "branch-loads",
+                    "dTLB-load-misses"
+                ]
+            },
+            {
+                "tool": "perf",
+                "metrics": [
+                    "dTLB-loads",
+                    "dTLB-store-misses",
+                    "dTLB-stores",
+                    "iTLB-load-misses"
+                ]
+            },
+            {
+                "tool": "perf",
+                "metrics": [
+                    "iTLB-loads",
+                    "node-load-misses",
+                    "node-loads",
+                    "node-prefetch-misses"
+                ]
+            },
+            {
+                "tool": "perf",
+                "metrics": [
+                    "node-prefetches",
+                    "node-store-misses",
+                    "node-stores"
+                ]
+            }
+        ],
+        "configurations": [
+            {
+                "name": "size",
+                "values": [
+                    17
+                ]
+            }
+        ]
+    }
+]
