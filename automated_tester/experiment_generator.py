@@ -161,7 +161,13 @@ def generate_csv_headers(experiment: dict) -> dict[str, str]:
             header = (
                 ["name"]
                 + param_names
-                + ["value", "event", "count", "time_enabled", "time_running"]
+                + [
+                    "event_name",
+                    "counter",
+                    "run_time",
+                    "time_enabled",
+                    "run_time_enabled",
+                ]
             )
         else:
             continue
@@ -252,15 +258,21 @@ def parse_perf_output(raw_output: subprocess.CompletedProcess[str]) -> list[list
     collected_output = []
     lines = raw_output.stderr.strip().split("\n")
     for line in lines:
-        # removing meta comments added by perf
-        if line.startswith("#") or not line.strip():
+        # search for events by looking for the ":u" suffix added by perf
+        if not line.__contains__(":u"):
             continue
         parts = line.split(",")
         if len(parts) >= 5:
-            value, _, event, count, enabled, running = parts[:6]
+            value, _, event, run_time, enabled_time, run_time_enabled, _ = parts[:7]
             # remove the ":u" added by perf
             event = event[:-2]
-            output = [value, event, count, enabled, running]
+            output = [
+                event,
+                value,
+                run_time,
+                enabled_time,
+                run_time_enabled,
+            ]
         else:
             print("Error while parsing perf output!")
             output = ["-1", "-1", "-1", "-1", "-1"]
@@ -316,7 +328,7 @@ def execute_commands(exp_name: str, commands: list[dict], output_files: dict) ->
         print(result.stdout, flush=True)
 
         # Write raw command
-        row = write_raw_output(exp_name, result, output_files, command)
+        row = write_raw_output(exp_name, result, output_files, cmd_dict)
 
 
 def main() -> None:
