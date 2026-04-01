@@ -53,9 +53,9 @@ def compute_statistics(
     csv_file_path: str,
 ) -> Dict[Tuple, Dict[str, Tuple[float, float]]]:
     """
-    Compute average and variance for all numeric columns in a CSV file, grouped by config_* columns.
+    Compute average and variance for all numeric columns in a CSV file, grouped by config_* columns and event_name if present.
     Returns a dictionary mapping configuration tuples to dictionaries of column statistics.
-    Format: {(config_val1, config_val2, ...): {column_name: (avg, var), ...}, ...}
+    Format: {(config_val1, config_val2, ..., event_name_val): {column_name: (avg, var), ...}, ...}
     """
     statistics_dict = {}
 
@@ -70,18 +70,18 @@ def compute_statistics(
             if not rows:
                 return statistics_dict
 
-            # Identify config columns and their indices
+            # Identify config columns and event_name column if present
             config_indices = [
                 idx
                 for idx, header in enumerate(headers)
-                if header.startswith("config_")
+                if header.startswith("config_") or header == "event_name"
             ]
             config_headers = [headers[idx] for idx in config_indices]
 
-            # Group rows by configuration values
+            # Group rows by configuration values and event_name if present
             config_groups = {}
             for row in rows:
-                # Create configuration key from config column values
+                # Create configuration key from config column values and event_name if present
                 config_key = tuple(
                     row[idx] if idx < len(row) else "" for idx in config_indices
                 )
