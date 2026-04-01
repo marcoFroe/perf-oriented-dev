@@ -22,3 +22,35 @@ As can be seen from the data, when the massif tool is enabled the runtime nearly
 
 
 ## Task B -- Measuring CPU counters
+
+The events in question are the following:
+-  L1-dcache-load-misses    
+-  L1-dcache-loads          
+-  L1-dcache-prefetch-misses
+-  L1-dcache-prefetches     
+-  L1-dcache-store-misses   
+-  L1-dcache-stores         
+-  L1-icache-load-misses    
+-  L1-icache-loads          
+-  LLC-load-misses          
+-  LLC-loads                
+-  LLC-prefetch-misses      
+-  LLC-prefetches           
+-  LLC-store-misses         
+-  LLC-stores               
+-  branch-load-misses       
+-  branch-loads             
+-  dTLB-load-misses         
+-  dTLB-loads               
+-  dTLB-store-misses        
+-  dTLB-stores              
+-  iTLB-load-misses         
+-  iTLB-loads               
+-  node-load-misses         
+-  node-loads               
+-  node-prefetch-misses     
+-  node-prefetches          
+-  node-store-misses        
+-  node-stores              
+
+After some research I found out that most CPUs can record between 4 and 8 counters accurately at the same time. Therefor I choose to go with the lower end of this assumption and split the required events into 6 packages of 4 and one with the remaining 3 events. For none of the combinations `perf` complained that it can not record them at the same time.
