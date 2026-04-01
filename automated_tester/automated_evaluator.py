@@ -2,7 +2,7 @@
 """
 Program to compute statistics (average and variance) for numerical columns in CSV files.
 Searches through all subdirectories for 'output' folders and processes CSV files found within.
-Appends results as comments to the end of each CSV file and generates violin plots.
+Generates new CSV files containing the results grouped by configurations and generates violin plots.
 """
 
 import os
@@ -131,11 +131,10 @@ def compute_statistics(
     return statistics_dict
 
 
-def append_statistics_to_csv(csv_file_path: str, statistics_dict: Dict) -> None:
+def write_statistics_csv(csv_file_path: str, statistics_dict: Dict) -> None:
     """
-    Append statistics as comments to the end of a CSV file.
-    Format: # <column name>: <avg> [<variance>]
-    Grouped by configuration values.
+    Write statistics to a new CSV file.
+    Columns: config columns, column_name, average, variance
     """
     # Extract config headers
     config_headers = statistics_dict.pop("__config_headers__", [])
@@ -143,51 +142,30 @@ def append_statistics_to_csv(csv_file_path: str, statistics_dict: Dict) -> None:
     if not statistics_dict:
         return
 
+    # Create output CSV path
+    stats_csv_path = csv_file_path.replace(".csv", "_statistics.csv")
+
     try:
-        with open(csv_file_path, "a", encoding="utf-8") as f:
-            f.write("\n# Statistics computed by automated_evaluator.py\n")
+        with open(stats_csv_path, "w", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+
+            # Write header
+            header = config_headers + ["column_name", "average", "variance"]
+            writer.writerow(header)
 
             # Sort configuration keys for consistent output
             for config_key in sorted(statistics_dict.keys()):
                 group_stats = statistics_dict[config_key]
 
-                # Write configuration line
-                if config_headers:
-                    config_str = ", ".join(
-                        f"{header}={value}"
-                        for header, value in zip(config_headers, config_key)
-                    )
-                    f.write(f"# Configuration: {config_str}\n")
-
-                # Write statistics for this configuration
+                # Write rows for this configuration
                 for column_name in sorted(group_stats.keys()):
                     avg, var = group_stats[column_name]
-                    f.write(f"# {column_name}: {avg} [{var}]\n")
-                f.write("#\n")
-    except Exception as e:
-        print(f"Error appending statistics to {csv_file_path}: {e}")
+                    row = list(config_key) + [column_name, avg, var]
+                    writer.writerow(row)
 
-
-def has_evaluation_section(csv_file_path: str) -> bool:
-    """
-    Check if a CSV file already has an evaluation section at the end.
-    Returns True if an evaluation section is found, False otherwise.
-    """
-    try:
-        with open(csv_file_path, "r", encoding="utf-8") as f:
-            lines = f.readlines()
-            # Check if there are at least 2 lines and if the last non-empty line starts with '# Statistics'
-            for line in reversed(lines):
-                stripped = line.strip()
-                if stripped.startswith(
-                    "# Statistics computed by automated_evaluator.py"
-                ):
-                    return True
-                if stripped and not stripped.startswith("#"):
-                    return False
+        print(f"  Statistics written to: {stats_csv_path}")
     except Exception as e:
-        print(f"Error checking evaluation section in {csv_file_path}: {e}")
-    return False
+        print(f"Error writing statistics CSV to {stats_csv_path}: {e}")
 
 
 def process_output_folders(root_path: str = ".") -> None:
@@ -204,15 +182,13 @@ def process_output_folders(root_path: str = ".") -> None:
             for filename in filenames:
                 if filename.lower().endswith(".csv"):
                     csv_file_path = os.path.join(dirpath, filename)
-                    if has_evaluation_section(csv_file_path):
-                        continue
                     print(f"  Processing CSV file: {csv_file_path}")
 
                     # Compute statistics
                     stats = compute_statistics(csv_file_path)
 
-                    # Append statistics to file
-                    append_statistics_to_csv(csv_file_path, stats.copy())
+                    # Write statistics to CSV
+                    write_statistics_csv(csv_file_path, stats.copy())
 
                     # Count configuration groups (exclude metadata key)
                     num_groups = len(
