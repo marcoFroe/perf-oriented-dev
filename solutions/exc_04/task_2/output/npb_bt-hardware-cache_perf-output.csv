@@ -269,3 +269,167 @@ npb_bt-hardware-cache,w,node-stores,107,2037685008,66,67
 npb_bt-hardware-cache,w,node-prefetches,15699,2044125631,66,66
 npb_bt-hardware-cache,w,node-store-misses,0,2044419214,66,67
 npb_bt-hardware-cache,w,node-stores,913,2044209435,66,67
+
+# Statistics computed by automated_evaluator.py
+# Configuration: config_default=w, event_name=L1-dcache-load-misses
+# counter: 119559746.8 [3846353609713.289]
+# run_time: 3015546556.2 [9820630006900.4]
+# run_time_enabled: 0.0 [0.0]
+# time_enabled: 100.0 [0.0]
+#
+# Configuration: config_default=w, event_name=L1-dcache-loads
+# counter: 7446472474.1 [77.65555555555555]
+# run_time: 3015546556.2 [9820630006900.4]
+# run_time_enabled: 0.0 [0.0]
+# time_enabled: 100.0 [0.0]
+#
+# Configuration: config_default=w, event_name=L1-dcache-prefetch-misses
+# counter: 0.0 [0.0]
+# run_time: 3015546556.2 [9820630006900.4]
+# run_time_enabled: 0.0 [0.0]
+# time_enabled: 100.0 [0.0]
+#
+# Configuration: config_default=w, event_name=L1-dcache-prefetches
+# counter: 0.0 [0.0]
+# run_time: 3015546556.2 [9820630006900.4]
+# run_time_enabled: 0.0 [0.0]
+# time_enabled: 100.0 [0.0]
+#
+# Configuration: config_default=w, event_name=L1-dcache-store-misses
+# counter: 37599147.9 [2102773516961.8777]
+# run_time: 3029681805.6 [161452874901086.03]
+# run_time_enabled: 0.0 [0.0]
+# time_enabled: 100.0 [0.0]
+#
+# Configuration: config_default=w, event_name=L1-icache-load-misses
+# counter: 1698502.7 [1405290411429.5667]
+# run_time: 3029681805.6 [161452874901086.03]
+# run_time_enabled: 0.0 [0.0]
+# time_enabled: 100.0 [0.0]
+#
+# Configuration: config_default=w, event_name=L1-icache-loads
+# counter: 6497991352.2 [19043570791872.4]
+# run_time: 3029681805.6 [161452874901086.03]
+# run_time_enabled: 0.0 [0.0]
+# time_enabled: 100.0 [0.0]
+#
+# Configuration: config_default=w, event_name=LLC-load-misses
+# counter: 25953.9 [3074558064.5444446]
+# run_time: 3029681805.6 [161452874901086.03]
+# run_time_enabled: 0.0 [0.0]
+# time_enabled: 100.0 [0.0]
+#
+# Configuration: config_default=w, event_name=LLC-loads
+# counter: 13164232.7 [10582453871.566668]
+# run_time: 1524474198.4 [2279479523767.156]
+# run_time_enabled: 59.3 [2561.3444444444444]
+# time_enabled: 49.4 [0.26666666666666666]
+#
+# Configuration: config_default=w, event_name=LLC-prefetch-misses
+# counter: 7269.6 [29671086.71111111]
+# run_time: 1525028582.2 [2831409495332.844]
+# run_time_enabled: 11.2 [952.1777777777778]
+# time_enabled: 49.9 [0.1]
+#
+# Configuration: config_default=w, event_name=LLC-prefetches
+# counter: 35500643.2 [156874645879.5111]
+# run_time: 1524893368.4 [3944258135555.6]
+# run_time_enabled: 20.7 [1703.5666666666666]
+# time_enabled: 49.8 [0.17777777777777778]
+#
+# Configuration: config_default=w, event_name=LLC-store-misses
+# counter: 4809.1 [18397346.544444446]
+# run_time: 1524338984.6 [3308834774732.0444]
+# run_time_enabled: 78.8 [1703.2888888888888]
+# time_enabled: 49.2 [0.17777777777777778]
+#
+# Configuration: config_default=w, event_name=LLC-stores
+# counter: 19067817.5 [14062586068.944445]
+# run_time: 3031679197.0 [92638828319778.67]
+# run_time_enabled: 0.0 [0.0]
+# time_enabled: 100.0 [0.0]
+#
+# Configuration: config_default=w, event_name=branch-load-misses
+# counter: 84426961.0 [3048845269.7777777]
+# run_time: 3031679197.0 [92638828319778.67]
+# run_time_enabled: 0.0 [0.0]
+# time_enabled: 100.0 [0.0]
+#
+# Configuration: config_default=w, event_name=branch-loads
+# counter: 88332865.0 [221.77777777777777]
+# run_time: 3031679197.0 [92638828319778.67]
+# run_time_enabled: 0.0 [0.0]
+# time_enabled: 100.0 [0.0]
+#
+# Configuration: config_default=w, event_name=dTLB-load-misses
+# counter: 144855.8 [206022552.84444445]
+# run_time: 3031679197.0 [92638828319778.67]
+# run_time_enabled: 0.0 [0.0]
+# time_enabled: 100.0 [0.0]
+#
+# Configuration: config_default=w, event_name=dTLB-loads
+# counter: 7446472486.6 [397.6]
+# run_time: 3026792921.3 [343248275789350.44]
+# run_time_enabled: 0.0 [0.0]
+# time_enabled: 100.0 [0.0]
+#
+# Configuration: config_default=w, event_name=dTLB-store-misses
+# counter: 33765.5 [3743818.0555555555]
+# run_time: 3026792921.3 [343248275789350.44]
+# run_time_enabled: 0.0 [0.0]
+# time_enabled: 100.0 [0.0]
+#
+# Configuration: config_default=w, event_name=dTLB-stores
+# counter: 3233673851.8 [384.6222222222222]
+# run_time: 3026792921.3 [343248275789350.44]
+# run_time_enabled: 0.0 [0.0]
+# time_enabled: 100.0 [0.0]
+#
+# Configuration: config_default=w, event_name=iTLB-load-misses
+# counter: 4798.7 [1682508.2333333334]
+# run_time: 3026792921.3 [343248275789350.44]
+# run_time_enabled: 0.0 [0.0]
+# time_enabled: 100.0 [0.0]
+#
+# Configuration: config_default=w, event_name=iTLB-loads
+# counter: 17623230644.7 [16174801976638.9]
+# run_time: 2287877346.5 [126417092927931.39]
+# run_time_enabled: 69.0 [2267.3333333333335]
+# time_enabled: 74.3 [0.23333333333333334]
+#
+# Configuration: config_default=w, event_name=node-load-misses
+# counter: 516.2 [202173.51111111112]
+# run_time: 2288250640.4 [128763404768091.16]
+# run_time_enabled: 20.3 [1720.6777777777777]
+# time_enabled: 74.8 [0.17777777777777778]
+#
+# Configuration: config_default=w, event_name=node-loads
+# counter: 12396.6 [176071499.15555555]
+# run_time: 2288410696.3 [127345287272651.78]
+# run_time_enabled: 10.9 [958.7666666666667]
+# time_enabled: 74.9 [0.1]
+#
+# Configuration: config_default=w, event_name=node-prefetch-misses
+# counter: 36.8 [1621.5111111111112]
+# run_time: 1525047289.7 [54711843369734.68]
+# run_time_enabled: 58.9 [2570.1]
+# time_enabled: 49.4 [0.26666666666666666]
+#
+# Configuration: config_default=w, event_name=node-prefetches
+# counter: 4355.2 [26799593.955555554]
+# run_time: 2028778654.3 [62039905205451.79]
+# run_time_enabled: 66.3 [0.45555555555555555]
+# time_enabled: 66.0 [0.0]
+#
+# Configuration: config_default=w, event_name=node-store-misses
+# counter: 0.0 [0.0]
+# run_time: 2029090617.6 [61507425803631.82]
+# run_time_enabled: 67.2 [0.6222222222222222]
+# time_enabled: 66.0 [0.0]
+#
+# Configuration: config_default=w, event_name=node-stores
+# counter: 222.1 [104643.21111111112]
+# run_time: 2028886015.5 [63974862414202.28]
+# run_time_enabled: 66.6 [1.1555555555555554]
+# time_enabled: 66.0 [0.0]
+#
