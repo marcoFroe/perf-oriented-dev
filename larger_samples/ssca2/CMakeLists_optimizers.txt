@@ -1,0 +1,28 @@
+cmake_minimum_required(VERSION 3.11)
+project(perf_prog_ssac2)
+
+set_property(GLOBAL PROPERTY C_STANDARD 11)
+
+file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS src/*.c src/*.h src/sprng2.0/*.c src/sprng2.0/*.h)
+include_directories(src/sprng2.0/include)
+
+link_libraries(m)
+add_definitions(-DLittleEndian -DAdd__)
+
+# Debug: Print the list of source files
+message(STATUS "Source files found: ${SOURCE_FILES}")
+
+# Define optimization levels
+set(OPT_LEVELS O0 O1 O2 O3 Os Ofast)
+
+# Helper macro to create targets for each optimization level
+macro(add_optimized_executable name source)
+  foreach(opt ${OPT_LEVELS})
+    add_executable(${name}_${opt} ${source})
+    set_target_properties(${name}_${opt} PROPERTIES LINKER_LANGUAGE C)
+    target_compile_options(${name}_${opt} PRIVATE -${opt})
+  endforeach()
+endmacro()
+
+# Add ssca2 executables with all optimization levels
+add_optimized_executable(ssca2 "${SOURCE_FILES}")

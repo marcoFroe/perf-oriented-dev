@@ -1,0 +1,158 @@
+[
+    {
+        "expName": "qap_O0",
+        "outputDirectory": "output",
+        "sourceDirectory": ".",
+        "executable": "/home/cb76/cb761228/perf-oriented-dev/small_samples/build/qap_O0",
+        "repetitions": 25,
+        "lang": "C",
+        "measurements": [
+            {
+                "tool": "time",
+                "metrics": [
+                    "real",
+                    "user",
+                    "sys"
+                ]
+            }
+        ],
+        "configurations": [
+            {
+                "name": "problem",
+                "values": [
+                    "problems/chr15c.dat"
+                ]
+            }
+        ]
+    },
+    {
+        "expName": "qap_O1",
+        "outputDirectory": "output",
+        "sourceDirectory": ".",
+        "executable": "/home/cb76/cb761228/perf-oriented-dev/small_samples/build/qap_O1",
+        "repetitions": 25,
+        "lang": "C",
+        "measurements": [
+            {
+                "tool": "time",
+                "metrics": [
+                    "real",
+                    "user",
+                    "sys"
+                ]
+            }
+        ],
+        "configurations": [
+            {
+                "name": "problem",
+                "values": [
+                    "problems/chr15c.dat"
+                ]
+            }
+        ]
+    },
+    {
+        "expName": "qap_O2",
+        "outputDirectory": "output",
+        "sourceDirectory": ".",
+        "executable": "/home/cb76/cb761228/perf-oriented-dev/small_samples/build/qap_O2",
+        "repetitions": 25,
+        "lang": "C",
+        "measurements": [
+            {
+                "tool": "time",
+                "metrics": [
+                    "real",
+                    "user",
+                    "sys"
+                ]
+            }
+        ],
+        "configurations": [
+            {
+                "name": "problem",
+                "values": [
+                    "problems/chr15c.dat"
+                ]
+            }
+        ]
+    },
+    {
+        "expName": "qap_O3",
+        "outputDirectory": "output",
+        "sourceDirectory": ".",
+        "executable": "/home/cb76/cb761228/perf-oriented-dev/small_samples/build/qap_O3",
+        "repetitions": 25,
+        "lang": "C",
+        "measurements": [
+            {
+                "tool": "time",
+                "metrics": [
+                    "real",
+                    "user",
+                    "sys"
+                ]
+            }
+        ],
+        "configurations": [
+            {
+                "name": "problem",
+                "values": [
+                    "problems/chr15c.dat"
+                ]
+            }
+        ]
+    },
+    {
+        "expName": "qap_Ofast",
+        "outputDirectory": "output",
+        "sourceDirectory": ".",
+        "executable": "/home/cb76/cb761228/perf-oriented-dev/small_samples/build/qap_Ofast",
+        "repetitions": 25,
+        "lang": "C",
+        "measurements": [
+            {
+                "tool": "time",
+                "metrics": [
+                    "real",
+                    "user",
+                    "sys"
+                ]
+            }
+        ],
+        "configurations": [
+            {
+                "name": "problem",
+                "values": [
+                    "problems/chr15c.dat"
+                ]
+            }
+        ]
+    },
+    {
+        "expName": "qap_Os",
+        "outputDirectory": "output",
+        "sourceDirectory": ".",
+        "executable": "/home/cb76/cb761228/perf-oriented-dev/small_samples/build/qap_Os",
+        "repetitions": 25,
+        "lang": "C",
+        "measurements": [
+            {
+                "tool": "time",
+                "metrics": [
+                    "real",
+                    "user",
+                    "sys"
+                ]
+            }
+        ],
+        "configurations": [
+            {
+                "name": "problem",
+                "values": [
+                    "problems/chr15c.dat"
+                ]
+            }
+        ]
+    }
+]

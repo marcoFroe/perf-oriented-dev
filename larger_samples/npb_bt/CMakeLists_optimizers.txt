@@ -1,0 +1,33 @@
+cmake_minimum_required(VERSION 3.11)
+project(perf_prog_npb_bt)
+
+set_property(GLOBAL PROPERTY C_STANDARD 11)
+
+if(MSVC)
+  add_compile_options(/W4)
+else()
+  add_compile_options(-Wall -Wextra -Wno-unknown-pragmas -Wno-unused-parameter)
+endif()
+
+file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS src/*.c src/*.h)
+
+# Debug: Print the list of source files
+message(STATUS "Source files found: ${SOURCE_FILES}")
+
+link_libraries(m)
+
+# Define optimization levels
+set(OPT_LEVELS O0 O1 O2 O3 Os Ofast)
+
+# Helper macro to create targets for each optimization level
+macro(add_optimized_executable name source include_dir)
+  foreach(opt ${OPT_LEVELS})
+    add_executable(${name}_${opt} ${source})
+    set_target_properties(${name}_${opt} PROPERTIES LINKER_LANGUAGE C)
+    target_include_directories(${name}_${opt} PRIVATE ${include_dir})
+    target_compile_options(${name}_${opt} PRIVATE -${opt})
+  endforeach()
+endmacro()
+
+# Add npb_bt_w executables with all optimization levels
+add_optimized_executable(npb_bt_w "${SOURCE_FILES}" src/w)

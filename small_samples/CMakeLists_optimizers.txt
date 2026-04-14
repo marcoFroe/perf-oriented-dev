@@ -1,0 +1,32 @@
+cmake_minimum_required(VERSION 3.10)
+project(perf_oriented_prog_samples)
+
+set_property(GLOBAL PROPERTY C_STANDARD 11)
+
+if(MSVC)
+  add_compile_options(/W4 /WX)
+else()
+  add_compile_options(-Wall -Wextra -Wpedantic -Werror)
+endif()
+
+# Define optimization levels
+set(OPT_LEVELS O0 O1 O2 O3 Os Ofast)
+
+# Helper macro to create targets for each optimization level
+macro(add_optimized_executable name source)
+  foreach(opt ${OPT_LEVELS})
+    add_executable(${name}_${opt} ${source})
+    target_compile_options(${name}_${opt} PRIVATE -${opt})
+    if(${name} STREQUAL "nbody")
+      target_link_libraries(${name}_${opt} m)
+    endif()
+  endforeach()
+endmacro()
+
+# Add executables with all optimization levels
+add_optimized_executable(mmul mmul/mmul.c)
+add_optimized_executable(delannoy delannoy/delannoy.c)
+add_optimized_executable(nbody nbody/nbody.c)
+add_optimized_executable(qap qap/qap.c)
+add_optimized_executable(filesearch filesearch/filesearch.c)
+add_optimized_executable(filegen filegen/filegen.c)
