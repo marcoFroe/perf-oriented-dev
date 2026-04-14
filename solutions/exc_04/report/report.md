@@ -70,7 +70,7 @@ The events in question are the following:
 After some research I found out that most CPUs can record between 4 and 8 counters accurately at the same time. Therefor I choose to go with the lower end of this assumption and split the required events into 6 packages of 4 and one with the remaining 3 events. For none of the combinations `perf` complained that it can not record them at the same time.
 
 
-Since the task asked for _relative metrics_ I computed them like by dividing the misses through their associated base task for example: `L1_dcache_load_misses / L1_dcache_loads`
+Since the task asked for _relative metrics_ I computed them by dividing the misses through their associated base task for example: `L1_dcache_load_misses / L1_dcache_loads`
 
 The following table will only contain does relative values for the miss rates average over all runs.
 
