@@ -1,0 +1,4 @@
+config_problem,column_name,average,variance
+problems/chr15c.dat,real,3.2292,0.00022433333333333246
+problems/chr15c.dat,sys,0.0,0.0
+problems/chr15c.dat,user,3.22,0.00020833333333333224

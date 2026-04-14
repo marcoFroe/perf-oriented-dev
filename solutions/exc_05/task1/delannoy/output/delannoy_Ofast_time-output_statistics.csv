@@ -1,0 +1,4 @@
+config_size,column_name,average,variance
+13,real,3.368,0.00013333333333333385
+13,sys,0.0,0.0
+13,user,3.3572,0.00012933333333333316

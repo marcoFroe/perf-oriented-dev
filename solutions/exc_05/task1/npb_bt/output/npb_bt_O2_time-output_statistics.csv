@@ -1,0 +1,4 @@
+config_problem,column_name,average,variance
+w,real,3.234,0.00029166666666666436
+w,sys,0.0,0.0
+w,user,3.216,0.0002249999999999993
