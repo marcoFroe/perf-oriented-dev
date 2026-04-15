@@ -82,11 +82,13 @@ Here also interestingly `-O2` was the fastest, and it is $\sim77\%$ faster than 
 
 | program | flag | metric | time |
 | ------- | ---- | ------ | ---- |
-| ssac2   | 00   | real   | -1   |
-| ssac2   | 01   | real   | -1   |
-| ssac2   | 02   | real   | -1   |
-| ssac2   | 03   | real   | -1   |
-| ssac2   | 0f   | real   | -1   |
-| ssac2   | 0s   | real   | -1   |
+| ssac2   | 00   | real   | 9.77 |
+| ssac2   | 01   | real   | 5.75 |
+| ssac2   | 02   | real   | 4.90 |
+| ssac2   | 03   | real   | 4.81 |
+| ssac2   | 0f   | real   | 4.76 |
+| ssac2   | 0s   | real   | 6.21 |
 
 ![ssca2](plots/times_ssca2.png)
+
+Here the `-Ofast` version was the fastest, and it is $\sim51\%$ faster than the slowest version with `-O0`.

@@ -29,9 +29,9 @@ qap,02,real,3.1136
 qap,03,real,3.2292
 qap,0f,real,3.2296
 qap,0s,real,3.6532
-ssac2,00,real,-1
-ssac2,01,real,-1
-ssac2,02,real,-1
-ssac2,03,real,-1
-ssac2,0f,real,-1
-ssac2,0s,real,-1
+ssac2,00,real,9.77
+ssac2,01,real,5.75
+ssac2,02,real,4.90
+ssac2,03,real,4.81
+ssac2,0f,real,4.76
+ssac2,0s,real,6.21
