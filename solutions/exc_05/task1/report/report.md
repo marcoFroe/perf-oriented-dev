@@ -76,7 +76,7 @@ Here very surprisingly `-Os` was the fastest even being slightly faster than `-O
 
 ![qap](plots/times_qap.png)
 
-Here also interestingly `-O2` was the fastest, and it is $\sim77\%$ faster than the slowest version with `-O0`. 
+Here also interestingly `-O2` was the fastest, and it is $\sim77\%$ faster than the slowest version with `-O0`. But the difference is probably captured in the variance.
 
 ## SSCA2
 
