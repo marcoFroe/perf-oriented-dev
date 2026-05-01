@@ -19,3 +19,6 @@ tools/build_release
 /.venv
 *.log
 /tracy
+rpmalloc/
+mimalloc/
+allscale_api/
