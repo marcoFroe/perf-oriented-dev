@@ -38,7 +38,7 @@ Experiment runs: 10
 
 | implementation | sytem time [sec]      | real time [sec]      | max memory [Mb]       |
 | -------------- | --------------------- | -------------------- | --------------------- |
-| default        | 114.491 (var: 0.928 ) | 170.704 (var: 0.968) | 517.502 (var: 32.490) |
+| default        | 114.491 (var: 0.928)  | 170.704 (var: 0.968) | 517.502 (var: 32.490) |
 | custom         | 0.0 (var: 0)          | 5.123 (var: 0.0347)  | 9.624 (var: 4.551)    |
 
 According to these measurements the speed-up of my implementation in real time is $\sim 33.32$ times, and also it is $\sim 53.77$ times more memory efficient.
