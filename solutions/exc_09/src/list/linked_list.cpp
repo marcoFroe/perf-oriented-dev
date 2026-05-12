@@ -24,7 +24,7 @@ LinkedList<StorageSize>::~LinkedList() {
 
 
 template<size_t StorageSize>
-void* LinkedList<StorageSize>::insert(size_t index, int value) {
+void* LinkedList<StorageSize>::insert(size_t index, char value) {
     if (index > this->node_count) {
         // Insert at the end
         index = this->node_count; 
@@ -107,7 +107,7 @@ void* LinkedList<StorageSize>::read(size_t index) {
 }
 
 template<size_t StorageSize>
-void LinkedList<StorageSize>::write(size_t index, int value){
+void LinkedList<StorageSize>::write(size_t index, char value){
     size_t count = 0;
     Node* current = this->head;
     while(count != index){
@@ -117,7 +117,7 @@ void LinkedList<StorageSize>::write(size_t index, int value){
     std::memcpy(current->value, &value, sizeof(value));
 }
 
-// Explicit template instantiation assuming that 1 char = 1 byte
-template class LinkedList<1>; // 1 Byte
-template class LinkedList<512>; // 512 Byte
+// Explicit template instantiation 
+template class LinkedList<1>; // 1 char
+template class LinkedList<512>; // 512 char
 template class LinkedList<8000000>; // 8 MB 
