@@ -1,4 +1,5 @@
 #include <cmath>
+#include <cstdint>
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
@@ -16,11 +17,12 @@ ListBase* choose_list(std::string type, size_t item_size, size_t num_elements) {
     }
 
     switch(item_size) {
-        case 1:
+        case 8:
             if (type.compare("array") == 0) {
-                return new ArrayList<1>(num_elements+1);
+                //allocate N+1 as described in the task
+                return new ArrayList<8>(num_elements+1);
             } else {
-                return new LinkedList<1>();
+                return new LinkedList<8>();
             }
         case 512:
             if (type.compare("array") == 0) {
@@ -45,9 +47,9 @@ int convert_value(void* ptr){
         return -1;
     }
 
-    char value;
-    std::memcpy(&value, static_cast<char*>(ptr), sizeof(char));
-    return static_cast<int>(value);
+    uint64_t value;
+    std::memcpy(&value, static_cast<uint64_t*>(ptr), sizeof(value));
+    return value;
 }
 
 size_t compute_rw_interval(float rw_percent, size_t total_op){
@@ -62,22 +64,31 @@ void run_benchmark(ListBase* list, size_t total_op, size_t interval, size_t item
     bool rw_alternator = true;
     bool id_alternator = true;
     size_t index = 0;
+    size_t current_size = elem_count;  // Track actual list size as it changes
     void* tmp = malloc(item_size);
-    volatile char value = 'A';
+    volatile uint64_t value = 0xAAAAAAAAAAAAAAAAULL;
 
     for(size_t i = 0; i < total_op; i++){
 
         // Read/Write Block
         if(i% (interval+1) == interval){
             if(rw_alternator){
-                void* read_result = list->read(index);
-                if(read_result != nullptr){
-                    memcpy(tmp, read_result, item_size);
-                    value = value ^ static_cast<char*>(tmp)[0];
+                if(current_size > 0 && index < current_size){
+                    void* read_result = list->read(index);
+                    if(read_result != nullptr){
+                        memcpy(tmp, read_result, item_size);
+                        // Only XOR up to 8 bytes, or less if item_size is smaller
+                        size_t xor_size = (item_size >= 8) ? 8 : item_size;
+                        uint64_t xor_val = 0;
+                        memcpy(&xor_val, tmp, xor_size);
+                        value = value ^ xor_val;
+                    }
                 }
             }
             else{
-                list->write(index, value);
+                if(current_size > 0 && index < current_size){
+                    list->write(index, value);
+                }
             }
             rw_alternator = !rw_alternator;
         }
@@ -86,20 +97,24 @@ void run_benchmark(ListBase* list, size_t total_op, size_t interval, size_t item
         else{
             if(id_alternator){
                 list->insert(index, value);
+                current_size++;
             }
             else{
-                list->remove(index);
+                if(current_size > 0 && index < current_size){
+                    list->remove(index);
+                    current_size--;
+                }
             }
             id_alternator = !id_alternator;
         }
-        index = ((index >= elem_count) ? 0 : index+1);
+        index = (index + 1) % (current_size > 0 ? current_size : 1);
     }
     free(tmp);
 }
 
 void init_list_linear(ListBase* list, size_t elem_count){
     for(size_t i = 0; i < elem_count; i++){
-        char val = (char) rand();
+        uint64_t val = (static_cast<uint64_t>(rand()) << 32) | static_cast<uint64_t>(rand());
         list->insert(i, val);
     }
 }
@@ -113,7 +128,7 @@ void init_list_random(ListBase* list, size_t elem_count){
     for(size_t i = 0; i < remaining; i++){
         size_t max_index = (elem_count/2) + i;
         size_t index = (max_index > 0) ? rand() % (max_index + 1) : 0;
-        char val = (char) rand();
+        uint64_t val = (static_cast<uint64_t>(rand()) << 32) | static_cast<uint64_t>(rand());
         list->insert(index, val);
     }
 }
@@ -148,7 +163,7 @@ int main(int argc, char* argv[]){
          "<percentage read/write> " <<
          "<total operations> " << 
          "<element count> "<<
-         "<item size [1,512,8000000]> " <<
+         "<item size [8,512,8000000] bytes> " <<
          "<type [linked,array]> "<<
          "<init [linear, random]>" 
          << std::endl;

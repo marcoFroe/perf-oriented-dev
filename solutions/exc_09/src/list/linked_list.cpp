@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstring>
 #include "linked_list.hpp"
 
@@ -24,7 +25,7 @@ LinkedList<StorageSize>::~LinkedList() {
 
 
 template<size_t StorageSize>
-void* LinkedList<StorageSize>::insert(size_t index, char value) {
+void* LinkedList<StorageSize>::insert(size_t index, uint64_t value) {
     if (index > this->node_count) {
         // Insert at the end
         index = this->node_count; 
@@ -107,7 +108,11 @@ void* LinkedList<StorageSize>::read(size_t index) {
 }
 
 template<size_t StorageSize>
-void LinkedList<StorageSize>::write(size_t index, char value){
+void LinkedList<StorageSize>::write(size_t index, uint64_t value){
+    if (index >= this->node_count || this->head == nullptr) {
+        return;
+    }
+    
     size_t count = 0;
     Node* current = this->head;
     while(count != index){
@@ -118,6 +123,6 @@ void LinkedList<StorageSize>::write(size_t index, char value){
 }
 
 // Explicit template instantiation 
-template class LinkedList<1>; // 1 char
+template class LinkedList<8>; // 1 char
 template class LinkedList<512>; // 512 char
 template class LinkedList<8000000>; // 8 MB 

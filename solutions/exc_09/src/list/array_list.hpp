@@ -1,4 +1,5 @@
 #include <cstddef>
+#include <cstdint>
 #include <cstring>
 #include "list_base.hpp"
 
@@ -9,10 +10,10 @@ class ArrayList : public ListBase {
     public:
         ArrayList(size_t size);
         ~ArrayList();
-        void* insert(size_t index, char value) override;
+        void* insert(size_t index, uint64_t value) override;
         void remove(size_t index) override;
         void* read(size_t index) override;
-        void write(size_t index, char value) override;
+        void write(size_t index, uint64_t value) override;
         size_t get_element_size() const override { return StorageSize; }
 
     private:

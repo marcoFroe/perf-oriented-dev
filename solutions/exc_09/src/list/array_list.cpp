@@ -1,4 +1,5 @@
 #include "array_list.hpp"
+#include <cstdint>
 #include <cstdlib>
 #include <cstring>
 
@@ -15,16 +16,16 @@ ArrayList<StorageSize>::~ArrayList(){
 }
 
 template<size_t StorageSize>
-void* ArrayList<StorageSize>::insert(size_t index, char value){
+void* ArrayList<StorageSize>::insert(size_t index, uint64_t value){
     if(this->element_count == this->max_size){
         this->storage = resize_storage();
     }
     
-    char* char_storage = static_cast<char*>(this->storage);
+    char* temp_storage = static_cast<char*>(this->storage);
     
     // Shift elements to the right by StorageSize chars
-    char* source = char_storage + (this->element_count - 1) * StorageSize;
-    char* dest = char_storage + this->element_count * StorageSize;
+    char* source = temp_storage + (this->element_count - 1) * StorageSize;
+    char* dest = temp_storage + this->element_count * StorageSize;
     for(size_t i = this->element_count; i > index; i--){
         memmove(dest, source, StorageSize);
         dest -= StorageSize;
@@ -32,10 +33,10 @@ void* ArrayList<StorageSize>::insert(size_t index, char value){
     }
     
     // Copy the new value at the target index
-    memcpy(char_storage + index * StorageSize, &value, sizeof(value));
+    memcpy(temp_storage + index * StorageSize, &value, sizeof(value));
     this->element_count++;
     
-    return char_storage + index * StorageSize;
+    return temp_storage + index * StorageSize;
 }
 
 template<size_t StorageSize>
@@ -47,12 +48,12 @@ void* ArrayList<StorageSize>::resize_storage(){
 
 template<size_t StorageSize>
 void ArrayList<StorageSize>::remove(size_t index){
-    char* char_storage = static_cast<char*>(this->storage);
+    char* temp_storage = static_cast<char*>(this->storage);
     
     // Shift elements to the left by StorageSize chars
     for(size_t i = index; i < this->element_count - 1; i++){
-        char* source = char_storage + (i + 1) * StorageSize;
-        char* dest = char_storage + i * StorageSize;
+        char* source = temp_storage + (i + 1) * StorageSize;
+        char* dest = temp_storage + i * StorageSize;
         memmove(dest, source, StorageSize);
     }
     
@@ -70,14 +71,14 @@ void* ArrayList<StorageSize>::read(size_t index){
 }
 
 template<size_t StorageSize>
-void ArrayList<StorageSize>::write(size_t index, char value){
+void ArrayList<StorageSize>::write(size_t index, uint64_t value){
     if(index < this->element_count){
-        char* char_storage = static_cast<char*>(this->storage);
-        memcpy(char_storage + index * StorageSize, &value, sizeof(value));
+        char* temp_storage = static_cast<char*>(this->storage);
+        memcpy(temp_storage + index * StorageSize, &value, sizeof(value));
     }
 }
 
 // Explicit template instantiation
-template class ArrayList<1>; // 1 Byte
+template class ArrayList<8>; // 8 Byte
 template class ArrayList<512>; // 512 Byte
 template class ArrayList<8000000>; // 8 MB 
