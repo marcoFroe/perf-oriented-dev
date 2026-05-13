@@ -78,6 +78,6 @@ void ArrayList<StorageSize>::write(size_t index, char value){
 }
 
 // Explicit template instantiation
-template class ArrayList<1>; // 1 char
-template class ArrayList<512>; // 512 char
+template class ArrayList<1>; // 1 Byte
+template class ArrayList<512>; // 512 Byte
 template class ArrayList<8000000>; // 8 MB 
