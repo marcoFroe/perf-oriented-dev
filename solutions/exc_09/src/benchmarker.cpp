@@ -63,15 +63,18 @@ void run_benchmark(ListBase* list, size_t total_op, size_t interval, size_t item
     bool id_alternator = true;
     size_t index = 0;
     void* tmp = malloc(item_size);
-    char value = 'A';
+    volatile char value = 'A';
 
     for(size_t i = 0; i < total_op; i++){
 
         // Read/Write Block
         if(i% (interval+1) == interval){
             if(rw_alternator){
-                memcpy(tmp, list->read(index), item_size);
-                value = value ^ static_cast<char*>(tmp)[0];
+                void* read_result = list->read(index);
+                if(read_result != nullptr){
+                    memcpy(tmp, read_result, item_size);
+                    value = value ^ static_cast<char*>(tmp)[0];
+                }
             }
             else{
                 list->write(index, value);
@@ -106,9 +109,10 @@ void init_list_random(ListBase* list, size_t elem_count){
     init_list_linear(list, elem_count/2);
 
     // shuffle the rest
-    elem_count = (elem_count % 2 == 1) ? (elem_count/2)+1 : elem_count/2;
-    for(size_t i = 0; i < elem_count; i++){
-        size_t index = rand() % (elem_count+i);
+    size_t remaining = (elem_count % 2 == 1) ? (elem_count/2)+1 : elem_count/2;
+    for(size_t i = 0; i < remaining; i++){
+        size_t max_index = (elem_count/2) + i;
+        size_t index = (max_index > 0) ? rand() % (max_index + 1) : 0;
         char val = (char) rand();
         list->insert(index, val);
     }
