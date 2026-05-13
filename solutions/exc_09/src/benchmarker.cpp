@@ -192,7 +192,8 @@ int main(int argc, char* argv[]){
 
     auto duration = duration_cast<microseconds>(end-start);
 
-    std::cout << "Time elapsed: " << duration.count() << " microseconds" << std::endl;
+    //std::cout << "Time elapsed: " << duration.count() << " microseconds" << std::endl;
+    std::cout << duration.count() << std::endl;
 
     delete list;
     return EXIT_SUCCESS;
