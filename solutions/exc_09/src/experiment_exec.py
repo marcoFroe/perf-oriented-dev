@@ -201,16 +201,9 @@ if __name__ == "__main__":
     print(f"Total combinations: {len(combinations)}")
 
     # Number of runs per setting
-    num_runs = 10
     executable_path = (
         "/home/cb76/cb761228/perf-oriented-dev/solutions/exc_09/src/benchmarker"
     )
     csv_file = args.output_file
 
-    run_experiments(
-        executable_path,
-        combinations,
-        csv_file=csv_file,
-        num_runs=num_runs,
-        run_id=1,
-    )
+    run_experiments(executable_path, combinations, csv_file=csv_file)
