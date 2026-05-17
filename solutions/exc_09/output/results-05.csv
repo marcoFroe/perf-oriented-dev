@@ -23,3 +23,6 @@ run_id,rw_mix,element_size,num_elements,list_type,allocation,num_operations,runt
 1,0.5,8000000,100,array,None,1000,45609200.0
 1,0.5,8000000,100,linked,random,1000,378444.0
 1,0.5,8000000,100,linked,linear,1000,374790.0
+1,0.5,8000000,1000,array,None,1000,4338575150.0
+1,0.5,8000000,100,linked,random,1000,3572877.0
+1,0.5,8000000,100,linked,linear,1000,3509244.0
