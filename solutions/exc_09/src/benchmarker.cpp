@@ -6,7 +6,7 @@
 #include <string>
 #include <chrono>
 #include "list/array_list.hpp"
-#include "list/linked_list.hpp"
+#include "list/system_linked_list.hpp"
 
 using namespace std::chrono;
 
@@ -22,19 +22,19 @@ ListBase* choose_list(std::string type, size_t item_size, size_t num_elements) {
                 //allocate N+1 as described in the task
                 return new ArrayList<8>(num_elements+1);
             } else {
-                return new LinkedList<8>();
+                return new SystemLinkedList<8>();
             }
         case 512:
             if (type.compare("array") == 0) {
                 return new ArrayList<512>(num_elements+1);
             } else {
-                return new LinkedList<512>();
+                return new SystemLinkedList<512>();
             }
         case 8000000:
             if (type.compare("array") == 0) {
                 return new ArrayList<8000000>(num_elements+1);
             } else {
-                return new LinkedList<8000000>();
+                return new SystemLinkedList<8000000>();
             }
         default:
             std::cerr << "Unsupported item size: " << item_size << std::endl;
@@ -186,9 +186,9 @@ int main(int argc, char* argv[]){
     ListBase* list = choose_list(argv[5], item_size, element_count);
     init_list(list, element_count, argv[6]);
 
-    auto start = high_resolution_clock::now();
+    auto start = steady_clock::now();
     run_benchmark(list, n_operations, interval, item_size, element_count);
-    auto end = high_resolution_clock::now();
+    auto end = steady_clock::now();
 
     auto duration = duration_cast<microseconds>(end-start);
 
