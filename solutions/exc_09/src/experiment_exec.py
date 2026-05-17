@@ -207,13 +207,10 @@ if __name__ == "__main__":
     )
     csv_file = args.output_file
 
-    for run_id in range(1, num_runs + 1):
-        print(f"\n=== Running experiment set {run_id}/{num_runs} ===")
-        run_experiments(
-            executable_path,
-            combinations,
-            csv_file=csv_file,
-            num_runs=num_runs,
-            run_id=run_id,
-        )
-        print(f"=== Completed run {run_id}/{num_runs} ===\n")
+    run_experiments(
+        executable_path,
+        combinations,
+        csv_file=csv_file,
+        num_runs=num_runs,
+        run_id=1,
+    )

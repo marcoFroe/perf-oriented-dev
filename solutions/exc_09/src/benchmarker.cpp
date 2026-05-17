@@ -8,6 +8,8 @@
 #include "list/array_list.hpp"
 #include "list/system_linked_list.hpp"
 
+#define NUM_REPEATS 10
+
 using namespace std::chrono;
 
 ListBase* choose_list(std::string type, size_t item_size, size_t num_elements) {
@@ -187,10 +189,12 @@ int main(int argc, char* argv[]){
     init_list(list, element_count, argv[6]);
 
     auto start = steady_clock::now();
-    run_benchmark(list, n_operations, interval, item_size, element_count);
+    for(size_t repeat = 0; repeat<NUM_REPEATS;repeat++){
+        run_benchmark(list, n_operations, interval, item_size, element_count);
+    }
     auto end = steady_clock::now();
 
-    auto duration = duration_cast<microseconds>(end-start);
+    auto duration = duration_cast<microseconds>(end-start)/10.0f;
 
     //std::cout << "Time elapsed: " << duration.count() << " microseconds" << std::endl;
     std::cout << duration.count() << std::endl;
