@@ -74,7 +74,7 @@ def execute_command_and_get_runtime(command):
             check=True,
         )
         # Strip whitespace and convert to integer
-        runtime = int(result.stdout.strip())
+        runtime = float(result.stdout.strip())
         return runtime
     except subprocess.CalledProcessError as e:
         print(f"Command failed: {' '.join(command)}")
@@ -202,7 +202,7 @@ if __name__ == "__main__":
 
     # Number of runs per setting
     executable_path = (
-        "/home/cb76/cb761228/perf-oriented-dev/solutions/exc_09/src/benchmarker"
+        "/home/marco/Data/Uni/perf-oriented-dev/solutions/exc_09/src/benchmarker"
     )
     csv_file = args.output_file
 
