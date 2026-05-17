@@ -194,10 +194,12 @@ int main(int argc, char* argv[]){
     }
     auto end = steady_clock::now();
 
-    auto duration = duration_cast<microseconds>(end-start)/10.0f;
+    auto duration = duration_cast<microseconds>(end-start);
 
     //std::cout << "Time elapsed: " << duration.count() << " microseconds" << std::endl;
-    std::cout << duration.count() << std::endl;
+    double f_duration = static_cast<double>(duration.count());
+
+    std::cout << (f_duration/10.0f) << std::endl;
 
     delete list;
     return EXIT_SUCCESS;
