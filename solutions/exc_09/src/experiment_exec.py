@@ -5,12 +5,7 @@ import argparse
 
 # Define num_operations based on num_elements
 def get_num_operations(num_elements: int):
-    if num_elements == 10:
-        return 100
-    elif num_elements == 1000:
-        return 10
-    else:
-        return 2
+    return 10
 
 
 def generate_experiment_settings(
@@ -184,7 +179,7 @@ if __name__ == "__main__":
     # Define the parameter values
     rw_mix_values = args.rw_mix_values
     element_size_values = [8, 512, 8000000]
-    num_elements_values = [10, 1000, 100000, 10000000]
+    num_elements_values = [10, 100, 1000]
     list_type_values = ["array", "linked"]
 
     # Only for linked lists
@@ -202,7 +197,7 @@ if __name__ == "__main__":
 
     # Number of runs per setting
     executable_path = (
-        "/home/marco/Data/Uni/perf-oriented-dev/solutions/exc_09/src/benchmarker"
+        "/home/cb76/cb761228/perf-oriented-dev/solutions/exc_09/src/benchmarker"
     )
     csv_file = args.output_file
 
