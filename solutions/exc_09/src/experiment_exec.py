@@ -184,7 +184,7 @@ if __name__ == "__main__":
     # Define the parameter values
     rw_mix_values = args.rw_mix_values
     element_size_values = [8, 512, 8000000]
-    num_elements_values = [10, 1000, 100000, 10000000]
+    num_elements_values = [10, 100, 1000]
     list_type_values = ["array", "linked"]
 
     # Only for linked lists
