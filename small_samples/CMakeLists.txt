@@ -15,6 +15,7 @@ add_executable(mmul_tiled_02 mmul/mmul_tiled_02.c)
 
 add_executable(delannoy delannoy/delannoy.c)
 add_executable(delannoy_mem delannoy/delannoy_memorization.c)
+add_executable(delannoy_tab delannoy/delannoy_tabulation.c)
 
 add_executable(nbody nbody/nbody.c)
 target_link_libraries(nbody m)
