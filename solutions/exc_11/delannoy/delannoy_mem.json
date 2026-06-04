@@ -1,0 +1,35 @@
+[
+    {
+        "expName": "delannoy_mem",
+        "outputDirectory": "output",
+        "sourceDirectory": ".",
+        "executable": "/home/cb76/cb761228/perf-oriented-dev/small_samples/build/delannoy_mem",
+        "repetitions": 10,
+        "lang": "C",
+        "measurements": [
+            {
+                "tool": "perf",
+                "metrics": [
+                    "cycles"
+                ]
+            }
+        ],
+        "configurations": [
+            {
+                "name": "size",
+                "values": [
+                    13,
+                    14,
+                    15,
+                    16,
+                    17,
+                    18,
+                    19,
+                    20,
+                    21,
+                    22
+                ]
+            }
+        ]
+    }
+]
