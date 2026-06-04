@@ -1,26 +1,51 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Load the CSV file
 df = pd.read_csv("delannoy_combined_output.csv")
 
-# Group by 'name' and 'config_size', then average the 'run_time'
-grouped = df.groupby(["name", "config_size"])["run_time"].mean().reset_index()
+# Group by 'name' and 'config_size', then calculate mean and std of 'run_time'
+grouped = (
+    df.groupby(["name", "config_size"])["run_time"]
+    .agg(["mean", "std"])
+    .reset_index()
+)
 
-# Pivot the data for easier plotting
-pivot_df = grouped.pivot(index="config_size", columns="name", values="run_time")
+# Pivot the data for plotting
+pivot_mean = grouped.pivot(index="config_size", columns="name", values="mean")
+pivot_std = grouped.pivot(index="config_size", columns="name", values="std")
 
 # Plot
-plt.figure(figsize=(10, 6))
-for name in pivot_df.columns:
-    plt.plot(pivot_df.index, pivot_df[name], label=name, marker="o")
+plt.figure(figsize=(12, 6))
+x = np.arange(len(pivot_mean.index))  # the label locations
+width = 0.25  # the width of the bars
+multiplier = 0
 
-plt.xscale("linear")
-plt.yscale("log")
+# Plot bars for each name
+for name in pivot_mean.columns:
+    offset = width * multiplier
+    rects = plt.bar(
+        x + offset,
+        pivot_mean[name],
+        width,
+        yerr=pivot_std[name],
+        label=name,
+        capsize=5,
+    )
+    multiplier += 1
+
+# Add labels, title, and legend
 plt.xlabel("Config Size")
-plt.ylabel("Run Time [ns]")
-plt.title("Run Time vs Config Size")
-plt.legend(title="Runtime vs Problem size")
-plt.grid(True, which="both", ls="--")
+plt.ylabel("Run Time [ns] (log scale)")
+plt.yscale("log")
+plt.title("Run Time vs Config Size (with Error Bars)")
+plt.xticks(x + width, pivot_mean.index)
+plt.legend(title="Name", loc="upper right")
+plt.grid(True, which="both", ls="--", axis="y")
 
-plt.savefig("run_time_vs_config_size.png", dpi=200, bbox_inches="tight")
+plt.savefig(
+    "run_time_vs_config_size_bar.png",
+    dpi=200,
+    bbox_inches="tight"
+)
