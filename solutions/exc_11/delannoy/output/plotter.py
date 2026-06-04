@@ -38,7 +38,6 @@ for name in pivot_mean.columns:
 # Add labels, title, and legend
 plt.xlabel("Config Size")
 plt.ylabel("Run Time [ns] (log scale)")
-plt.yscale("log")
 plt.title("Run Time vs Config Size (with Error Bars)")
 plt.xticks(x + width, pivot_mean.index)
 plt.legend(title="Name", loc="upper right")
